@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from '@tanstack/react-router';
+import { Link, useNavigate } from '@tanstack/react-router';
 import { runRendererTask } from '@/lib/global-error-recovery';
 import {
   Background,
@@ -18,7 +18,7 @@ import {
 import '@xyflow/react/dist/style.css';
 import { LayoutTemplateIcon, PhoneCallIcon, PlusIcon, WorkflowIcon } from 'lucide-react';
 import { WorkspaceHeader } from '@/components/app-shell/workspace-header';
-import { Button } from '@/components/ui/button';
+import { Button, buttonVariants } from '@/components/ui/button';
 import { CallsPage } from '@/features/calls/calls-page';
 import {
   STEP_KINDS,
@@ -179,6 +179,9 @@ function WorkflowCanvas({
       <WorkspaceHeader>
         <WorkflowIcon size={17} aria-hidden="true" />
         <h1 className="text-sm font-medium">{t('workflows.title')}</h1>
+        <Link to="/music" className={buttonVariants({ variant: 'outline', size: 'sm' })}>
+          {t('music.title')}
+        </Link>
         <Button size="sm" variant="outline" disabled={running} onClick={() => onCalls()}>
           <PhoneCallIcon aria-hidden="true" />
           {t('calls.title')}

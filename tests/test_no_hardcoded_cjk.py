@@ -37,6 +37,7 @@ _ALLOWED_PREFIXES = {
     "electron/src/renderer/src/i18n/": "The translation layer itself.",
     "docs/specs/": "Design specs quote localized product copy as examples.",
     "docs/readme/": "Translated READMEs and their native language-switcher links.",
+    "docs/fork-workstation/": "The fork owner's Chinese-language setup plan, written for a Chinese reader.",
 }
 _ALLOWED_FILES = {
     "mobile/contract/tts/zipvoice-lexicon.txt": "Pinned multilingual pronunciation data, not UI copy.",

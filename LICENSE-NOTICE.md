@@ -91,7 +91,16 @@ licence alone does not describe those binaries' terms. The
 [wheel audit](docs/licensing/pyav-15.1.0-audit.md) records their hashes, build flags,
 upstream licence-label patch, and unresolved redistribution requirements.
 
-### Reference
+### Optional music creation instructions
+
+VoiceStudio's project-local installer fetches selected text skills from
+`jtydhr88/lyric-writing-skills` and `jtydhr88/music-composition-skills`.
+It copies the upstream MIT LICENSE and NOTICE with each installed skill.
+Quoted or referenced third-party material is excluded by those notices.
+The copies are installed on demand by developers and are outside the app
+distribution. See the [pinned sources](docs/music-workstation/README.md#codex-assisted-mode).
+
+## Reference
 
 The full canonical text of the GNU Affero General Public License, Version 3 is
 reproduced verbatim in [`LICENSE`](LICENSE). The authoritative copy lives at

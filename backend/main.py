@@ -796,6 +796,7 @@ def _phase_a_build_inner() -> None:
         dub_export,
         dub_translate,
         projects,
+        music,
         glossary,
         engines,
         tools,
@@ -833,7 +834,7 @@ def _phase_a_build_inner() -> None:
     from api.routers import cloud_sync as _cloud_sync_router  # noqa: E402
     _router_modules.extend([
         system, profiles, profile_images, exports, generation, voice_convert, sfx, dub_core, dub_generate,
-        dub_export, dub_translate, projects, glossary, engines, tools,
+        dub_export, dub_translate, projects, music, glossary, engines, tools,
         stories, setup, gallery, demo_assets_router, archetypes, describe_voice, community,
         batch, watermark, events, capture, capture_ws, speech_platform, dictation,
         openai_compat, tts_stream, marketplace, personas, sonitranslate,
@@ -1498,6 +1499,9 @@ async def _application_lifespan(app: FastAPI):
         await asyncio.to_thread(_phase_a_finished.wait, 20.0)
     await _wait_for_profile_reconcile_thread(app)
     await _wait_for_analytics_thread(app)
+    from core.job_queue import gpu_queue
+
+    await gpu_queue.stop()
     try:
         from services.telephony import gateway as telephony_gateway
         await telephony_gateway.stop()

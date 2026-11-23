@@ -1,0 +1,38 @@
+[
+  {
+    "name": "tone.wav",
+    "fileType": "wav",
+    "codec": "pcm_s16le",
+    "durationSeconds": 2,
+    "sampleRateHz": 48000,
+    "channels": 1,
+    "sizeBytes": 192078,
+    "sha256": "a9f1db8b0e155d0a9c4eda673f9286d5da3310d5e87f19e62ebbed88c5e3a5b6",
+    "source": "unknown",
+    "rights": "unverified",
+    "analysis": {
+      "status": "complete",
+      "integratedLufs": -21.05,
+      "truePeakDbtp": -18.06,
+      "error": null
+    }
+  },
+  {
+    "name": "tone.mp3",
+    "fileType": "mp3",
+    "codec": "mp3",
+    "durationSeconds": 2.04,
+    "sampleRateHz": 48000,
+    "channels": 1,
+    "sizeBytes": 16556,
+    "sha256": "c2a690211a9cbe8324e3c5b008d2e866aeb4d2e1481259420b42fc41dbbe9f77",
+    "source": "unknown",
+    "rights": "unverified",
+    "analysis": {
+      "status": "complete",
+      "integratedLufs": -21.55,
+      "truePeakDbtp": -18.49,
+      "error": null
+    }
+  }
+]

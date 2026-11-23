@@ -197,6 +197,7 @@ export const DEFAULT_FIXTURES = {
   '/system/notifications': [],
   '/export/history': [],
   '/projects': [],
+  '/music/projects': [],
   '/models/install/status': { jobs: [] },
   '/generate/budget': {},
   '/setup/preflight': {

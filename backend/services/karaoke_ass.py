@@ -169,7 +169,11 @@ def _karaoke_text(cue: dict, text: str, start: float, end: float) -> str:
     layout — inter-word gaps finish the previous word's fill), and the last
     word sweeps out to the cue end.
     """
-    words = _usable_words(cue, text) or [
+    characters = bool(cue.get("character_karaoke"))
+    words = [
+        (char, start + (end - start) * i / len(text), end)
+        for i, char in enumerate(text)
+    ] if characters else _usable_words(cue, text) or [
         (w["text"], w["start"], w["end"]) for w in even_split_words(text, start, end)
     ]
     # Clamp into the cue span and enforce monotonic starts so malformed
@@ -195,7 +199,7 @@ def _karaoke_text(cue: dict, text: str, start: float, end: float) -> str:
     for i, (wtext, _) in enumerate(clamped):
         nxt = _cs_at(clamped[i + 1][1] if i + 1 < len(clamped) else end)
         nxt = max(nxt, at + 1)
-        sep = " " if i + 1 < len(clamped) else ""
+        sep = " " if not characters and i + 1 < len(clamped) else ""
         parts.append(f"{{\\kf{nxt - at}}}{_ass_escape(wtext)}{sep}")
         at = nxt
     return "".join(parts)

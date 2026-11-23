@@ -1,0 +1,23 @@
+{
+  "completed": [
+    "inputs",
+    "stems",
+    "mix",
+    "mv",
+    "export"
+  ],
+  "artifactSha256": {
+    "mix.wav": "8b3fc5b632363e09d990a7abcf988883755e111fe32035ac3b8d3e8d1bfe73c7",
+    "waveform.png": "36427bd7ddd2a7e25373160ee70f28530f94c41a9e272ca8cb8cea1408966005",
+    "mv.mp4": "387348726a9507d6cdd2bcb1d8139fe4f38792f712f5b15476528e8ed70b2b8e",
+    "lyrics.ass": "aca3a065d62a2e254a3824f0811fedef78c3d9f28a83c7ef3b1f54140fbe77d9"
+  },
+  "inputSha256": "a9f1db8b0e155d0a9c4eda673f9286d5da3310d5e87f19e62ebbed88c5e3a5b6",
+  "analysis": {
+    "status": "complete",
+    "integratedLufs": -21.05,
+    "truePeakDbtp": -21.07,
+    "error": null
+  },
+  "videoRenderer": "ffmpeg"
+}

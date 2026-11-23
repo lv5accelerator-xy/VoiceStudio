@@ -1,0 +1,14 @@
+{
+  "name": "voicestudio-mv-renderer",
+  "version": "0.0.0",
+  "type": "module",
+  "private": true,
+  "scripts": {"check": "node --check render.mjs"},
+  "dependencies": {
+    "@remotion/bundler": "4.0.546",
+    "@remotion/renderer": "4.0.546",
+    "react": "19.2.4",
+    "react-dom": "19.2.4",
+    "remotion": "4.0.546"
+  }
+}
