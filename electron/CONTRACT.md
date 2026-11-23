@@ -20,6 +20,11 @@ second belongs to the backend route. Do not collapse the pair in the API client.
 
 Live dictation uses a WebSocket, which cannot pass through the app protocol HTTP handler. Native sessions use the backend URL supplied by the preload status bridge, with the exact `app://voicestudio` origin accepted by the backend. Browser development uses `/api/ws/transcribe`; the dev proxy removes only its own exact localhost origin on WebSocket upgrades. Other origins remain subject to backend validation.
 
+Local audio uploads to `/api/music/projects/<UUID>/audio` stream through the
+same Node loopback transport as large dubbing uploads. The backend counts
+the raw body bytes before validation and accepts only local media inputs.
+See the [music API and data retention contract](../docs/music-workstation/README.md#api-and-data-retention).
+
 ## Backend process (main)
 
 - Port: `OMNIVOICE_PORT` env or 3900. Base `http://127.0.0.1:<port>`.

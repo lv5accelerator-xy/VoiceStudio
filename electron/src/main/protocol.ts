@@ -109,8 +109,9 @@ export function installAppProtocol(
   });
 }
 
-// Large file uploads: dubbing videos and voice-changer video clips.
+// Large local uploads need backpressure through the desktop proxy.
 const STREAMED_UPLOAD_PATHS = new Set(['/dub/upload', '/convert']);
+const MUSIC_AUDIO_UPLOAD = /^\/music\/projects\/[a-f0-9-]{36}\/audio$/;
 
 async function proxyToBackend(
   request: Request,
@@ -137,7 +138,11 @@ async function proxyToBackend(
       duplex: 'half' as const,
       signal: request.signal,
     };
-    if (request.method === 'POST' && STREAMED_UPLOAD_PATHS.has(rest) && options.body) {
+    if (
+      request.method === 'POST' &&
+      (STREAMED_UPLOAD_PATHS.has(rest) || MUSIC_AUDIO_UPLOAD.test(rest)) &&
+      options.body
+    ) {
       const destination = new URL(target);
       if (destination.protocol === 'http:' && LOOPBACK_HOSTS.has(destination.hostname)) {
         // Electron net.fetch buffers the whole request before sending it.

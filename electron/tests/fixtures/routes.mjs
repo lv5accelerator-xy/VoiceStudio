@@ -13,6 +13,7 @@ export const ROUTES = Object.freeze([
   '/dub',
   '/batch',
   '/projects',
+  '/music',
   '/tools',
   '/integrations',
   '/pro',

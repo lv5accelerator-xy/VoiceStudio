@@ -3,6 +3,8 @@ import { AppShell } from '@/components/app-shell/app-shell';
 import { readLastSettingsRoute } from '@/lib/settings-route';
 import { NotFoundPage } from '@/components/not-found-page';
 
+const MusicPage = lazyRouteComponent(() => import('@/features/music/music-page'), 'MusicPage');
+
 const HomePage = lazyRouteComponent(() => import('@/features/home/home-page'), 'HomePage');
 
 const ClonePage = lazyRouteComponent(() => import('@/features/clone/clone-page'), 'ClonePage');
@@ -274,6 +276,12 @@ export const diagnosticsRoute = createRoute({
   path: '/settings/diagnostics',
   component: SettingsPage,
 });
+export const musicRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/music',
+  component: MusicPage,
+});
+
 export const routeTree = rootRoute.addChildren([
   diagnosticsRoute,
   openApiRoute,
@@ -292,6 +300,7 @@ export const routeTree = rootRoute.addChildren([
   storiesRoute,
   audiobookRoute,
   projectsRoute,
+  musicRoute,
   indexRoute,
   cloneRoute,
   savedVoicesRoute,

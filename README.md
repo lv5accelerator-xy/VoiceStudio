@@ -508,6 +508,11 @@ Upgrading from 0.5.3 or older (the Tauri app)? [Install the new app separately](
 
 Agent skills: `npx skills add debpalash/VoiceStudio` (**voicestudio** for audio work, **voicestudio-maintainer** for the repo).
 
+### AI Music workspace
+
+Create local song projects, version lyrics and Suno prompts, and import and analyze WAV or MP3 audio.
+See the [music workspace guide](docs/music-workstation/README.md) for manual editing and Codex-assisted creation.
+
 ## Sponsors
 
 The VoiceStudio app is free and needs no paid cloud. Sponsors keep it shipping: they fund maintainer time, test hardware, code-signing and release infrastructure.

@@ -182,6 +182,157 @@
     "title": "AttestationBody",
     "type": "object"
    },
+   "AudioAnalysis": {
+    "additionalProperties": false,
+    "properties": {
+     "error": {
+      "anyOf": [
+       {
+        "enum": [
+         "no_loudness_result",
+         "analysis_failed"
+        ],
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Error"
+     },
+     "integratedLufs": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Integratedlufs"
+     },
+     "status": {
+      "enum": [
+       "complete",
+       "unavailable",
+       "failed"
+      ],
+      "title": "Status",
+      "type": "string"
+     },
+     "truePeakDbtp": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Truepeakdbtp"
+     }
+    },
+    "required": [
+     "status"
+    ],
+    "title": "AudioAnalysis",
+    "type": "object"
+   },
+   "AudioAsset": {
+    "additionalProperties": false,
+    "properties": {
+     "analysis": {
+      "$ref": "#/components/schemas/AudioAnalysis"
+     },
+     "channels": {
+      "exclusiveMinimum": 0.0,
+      "title": "Channels",
+      "type": "integer"
+     },
+     "codec": {
+      "title": "Codec",
+      "type": "string"
+     },
+     "createdAt": {
+      "format": "date-time",
+      "title": "Createdat",
+      "type": "string"
+     },
+     "durationSeconds": {
+      "exclusiveMinimum": 0.0,
+      "title": "Durationseconds",
+      "type": "number"
+     },
+     "fileType": {
+      "enum": [
+       "wav",
+       "mp3"
+      ],
+      "title": "Filetype",
+      "type": "string"
+     },
+     "id": {
+      "format": "uuid",
+      "title": "Id",
+      "type": "string"
+     },
+     "name": {
+      "title": "Name",
+      "type": "string"
+     },
+     "rights": {
+      "default": "unverified",
+      "enum": [
+       "unverified",
+       "personal_use",
+       "commercial_confirmed"
+      ],
+      "title": "Rights",
+      "type": "string"
+     },
+     "sampleRateHz": {
+      "exclusiveMinimum": 0.0,
+      "title": "Sampleratehz",
+      "type": "integer"
+     },
+     "sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Sha256",
+      "type": "string"
+     },
+     "sizeBytes": {
+      "exclusiveMinimum": 0.0,
+      "title": "Sizebytes",
+      "type": "integer"
+     },
+     "source": {
+      "default": "unknown",
+      "enum": [
+       "unknown",
+       "suno",
+       "original",
+       "third_party"
+      ],
+      "title": "Source",
+      "type": "string"
+     }
+    },
+    "required": [
+     "id",
+     "name",
+     "fileType",
+     "codec",
+     "durationSeconds",
+     "sampleRateHz",
+     "channels",
+     "sizeBytes",
+     "sha256",
+     "analysis",
+     "createdAt"
+    ],
+    "title": "AudioAsset",
+    "type": "object"
+   },
    "AudiobookPlanRequest": {
     "properties": {
      "default_voice": {
@@ -1990,6 +2141,19 @@
     "title": "CustomPathRequest",
     "type": "object"
    },
+   "DeleteResult": {
+    "additionalProperties": false,
+    "properties": {
+     "retainedAudio": {
+      "const": true,
+      "default": true,
+      "title": "Retainedaudio",
+      "type": "boolean"
+     }
+    },
+    "title": "DeleteResult",
+    "type": "object"
+   },
    "DescribeRequest": {
     "properties": {
      "description": {
@@ -3178,6 +3342,56 @@
     "title": "LongformSpan",
     "type": "object"
    },
+   "LyricsInput": {
+    "additionalProperties": false,
+    "properties": {
+     "id": {
+      "format": "uuid",
+      "title": "Id",
+      "type": "string"
+     },
+     "text": {
+      "maxLength": 24000,
+      "minLength": 1,
+      "title": "Text",
+      "type": "string"
+     }
+    },
+    "required": [
+     "id",
+     "text"
+    ],
+    "title": "LyricsInput",
+    "type": "object"
+   },
+   "LyricsVersion": {
+    "additionalProperties": false,
+    "properties": {
+     "createdAt": {
+      "format": "date-time",
+      "title": "Createdat",
+      "type": "string"
+     },
+     "id": {
+      "format": "uuid",
+      "title": "Id",
+      "type": "string"
+     },
+     "text": {
+      "maxLength": 24000,
+      "minLength": 1,
+      "title": "Text",
+      "type": "string"
+     }
+    },
+    "required": [
+     "id",
+     "text",
+     "createdAt"
+    ],
+    "title": "LyricsVersion",
+    "type": "object"
+   },
    "MissingModel": {
     "properties": {
      "label": {
@@ -3586,6 +3800,150 @@
      "state"
     ],
     "title": "ProjectSaveRequest",
+    "type": "object"
+   },
+   "PromptInput": {
+    "additionalProperties": false,
+    "properties": {
+     "arrangement": {
+      "default": "",
+      "maxLength": 500,
+      "title": "Arrangement",
+      "type": "string"
+     },
+     "exclusions": {
+      "default": "",
+      "maxLength": 4000,
+      "title": "Exclusions",
+      "type": "string"
+     },
+     "explanation": {
+      "default": "",
+      "maxLength": 4000,
+      "title": "Explanation",
+      "type": "string"
+     },
+     "id": {
+      "format": "uuid",
+      "title": "Id",
+      "type": "string"
+     },
+     "instruments": {
+      "default": "",
+      "maxLength": 500,
+      "title": "Instruments",
+      "type": "string"
+     },
+     "mood": {
+      "default": "",
+      "maxLength": 500,
+      "title": "Mood",
+      "type": "string"
+     },
+     "rhythm": {
+      "default": "",
+      "maxLength": 500,
+      "title": "Rhythm",
+      "type": "string"
+     },
+     "style": {
+      "default": "",
+      "maxLength": 500,
+      "title": "Style",
+      "type": "string"
+     },
+     "stylePrompt": {
+      "default": "",
+      "maxLength": 4000,
+      "title": "Styleprompt",
+      "type": "string"
+     },
+     "vocal": {
+      "default": "",
+      "maxLength": 500,
+      "title": "Vocal",
+      "type": "string"
+     }
+    },
+    "required": [
+     "id"
+    ],
+    "title": "PromptInput",
+    "type": "object"
+   },
+   "PromptVersion": {
+    "additionalProperties": false,
+    "properties": {
+     "arrangement": {
+      "default": "",
+      "maxLength": 500,
+      "title": "Arrangement",
+      "type": "string"
+     },
+     "createdAt": {
+      "format": "date-time",
+      "title": "Createdat",
+      "type": "string"
+     },
+     "exclusions": {
+      "default": "",
+      "maxLength": 4000,
+      "title": "Exclusions",
+      "type": "string"
+     },
+     "explanation": {
+      "default": "",
+      "maxLength": 4000,
+      "title": "Explanation",
+      "type": "string"
+     },
+     "id": {
+      "format": "uuid",
+      "title": "Id",
+      "type": "string"
+     },
+     "instruments": {
+      "default": "",
+      "maxLength": 500,
+      "title": "Instruments",
+      "type": "string"
+     },
+     "mood": {
+      "default": "",
+      "maxLength": 500,
+      "title": "Mood",
+      "type": "string"
+     },
+     "rhythm": {
+      "default": "",
+      "maxLength": 500,
+      "title": "Rhythm",
+      "type": "string"
+     },
+     "style": {
+      "default": "",
+      "maxLength": 500,
+      "title": "Style",
+      "type": "string"
+     },
+     "stylePrompt": {
+      "default": "",
+      "maxLength": 4000,
+      "title": "Styleprompt",
+      "type": "string"
+     },
+     "vocal": {
+      "default": "",
+      "maxLength": 500,
+      "title": "Vocal",
+      "type": "string"
+     }
+    },
+    "required": [
+     "id",
+     "createdAt"
+    ],
+    "title": "PromptVersion",
     "type": "object"
    },
    "PronEntry": {
@@ -4187,6 +4545,356 @@
      "prompt"
     ],
     "title": "SfxRequest",
+    "type": "object"
+   },
+   "Song": {
+    "additionalProperties": false,
+    "properties": {
+     "audioAssets": {
+      "items": {
+       "$ref": "#/components/schemas/AudioAsset"
+      },
+      "title": "Audioassets",
+      "type": "array"
+     },
+     "bpm": {
+      "anyOf": [
+       {
+        "maximum": 300.0,
+        "minimum": 20.0,
+        "type": "integer"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Bpm"
+     },
+     "createdAt": {
+      "format": "date-time",
+      "title": "Createdat",
+      "type": "string"
+     },
+     "genre": {
+      "default": "",
+      "maxLength": 500,
+      "title": "Genre",
+      "type": "string"
+     },
+     "id": {
+      "format": "uuid",
+      "title": "Id",
+      "type": "string"
+     },
+     "language": {
+      "default": "zh-CN",
+      "maxLength": 40,
+      "pattern": "^[a-zA-Z]{2,3}(?:-[a-zA-Z0-9]{2,8})*$",
+      "title": "Language",
+      "type": "string"
+     },
+     "lyricsVersions": {
+      "items": {
+       "$ref": "#/components/schemas/LyricsVersion"
+      },
+      "title": "Lyricsversions",
+      "type": "array"
+     },
+     "mood": {
+      "default": "",
+      "maxLength": 500,
+      "title": "Mood",
+      "type": "string"
+     },
+     "revision": {
+      "default": 0,
+      "minimum": 0.0,
+      "title": "Revision",
+      "type": "integer"
+     },
+     "schemaVersion": {
+      "const": 1,
+      "default": 1,
+      "title": "Schemaversion",
+      "type": "integer"
+     },
+     "status": {
+      "default": "draft",
+      "enum": [
+       "draft",
+       "writing",
+       "ready_for_suno",
+       "audio_imported",
+       "complete"
+      ],
+      "title": "Status",
+      "type": "string"
+     },
+     "sunoPrompts": {
+      "items": {
+       "$ref": "#/components/schemas/PromptVersion"
+      },
+      "title": "Sunoprompts",
+      "type": "array"
+     },
+     "targetSeconds": {
+      "anyOf": [
+       {
+        "maximum": 1200.0,
+        "minimum": 1.0,
+        "type": "integer"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Targetseconds"
+     },
+     "theme": {
+      "default": "",
+      "maxLength": 500,
+      "title": "Theme",
+      "type": "string"
+     },
+     "title": {
+      "default": "Untitled song",
+      "maxLength": 200,
+      "minLength": 1,
+      "title": "Title",
+      "type": "string"
+     },
+     "updatedAt": {
+      "format": "date-time",
+      "title": "Updatedat",
+      "type": "string"
+     },
+     "vocalType": {
+      "default": "",
+      "maxLength": 500,
+      "title": "Vocaltype",
+      "type": "string"
+     }
+    },
+    "required": [
+     "id",
+     "createdAt",
+     "updatedAt"
+    ],
+    "title": "Song",
+    "type": "object"
+   },
+   "SongFields": {
+    "additionalProperties": false,
+    "properties": {
+     "bpm": {
+      "anyOf": [
+       {
+        "maximum": 300.0,
+        "minimum": 20.0,
+        "type": "integer"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Bpm"
+     },
+     "genre": {
+      "default": "",
+      "maxLength": 500,
+      "title": "Genre",
+      "type": "string"
+     },
+     "language": {
+      "default": "zh-CN",
+      "maxLength": 40,
+      "pattern": "^[a-zA-Z]{2,3}(?:-[a-zA-Z0-9]{2,8})*$",
+      "title": "Language",
+      "type": "string"
+     },
+     "mood": {
+      "default": "",
+      "maxLength": 500,
+      "title": "Mood",
+      "type": "string"
+     },
+     "status": {
+      "default": "draft",
+      "enum": [
+       "draft",
+       "writing",
+       "ready_for_suno",
+       "audio_imported",
+       "complete"
+      ],
+      "title": "Status",
+      "type": "string"
+     },
+     "targetSeconds": {
+      "anyOf": [
+       {
+        "maximum": 1200.0,
+        "minimum": 1.0,
+        "type": "integer"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Targetseconds"
+     },
+     "theme": {
+      "default": "",
+      "maxLength": 500,
+      "title": "Theme",
+      "type": "string"
+     },
+     "title": {
+      "default": "Untitled song",
+      "maxLength": 200,
+      "minLength": 1,
+      "title": "Title",
+      "type": "string"
+     },
+     "vocalType": {
+      "default": "",
+      "maxLength": 500,
+      "title": "Vocaltype",
+      "type": "string"
+     }
+    },
+    "title": "SongFields",
+    "type": "object"
+   },
+   "SongSummary": {
+    "additionalProperties": false,
+    "properties": {
+     "id": {
+      "format": "uuid",
+      "title": "Id",
+      "type": "string"
+     },
+     "status": {
+      "enum": [
+       "draft",
+       "writing",
+       "ready_for_suno",
+       "audio_imported",
+       "complete"
+      ],
+      "title": "Status",
+      "type": "string"
+     },
+     "title": {
+      "maxLength": 200,
+      "minLength": 1,
+      "title": "Title",
+      "type": "string"
+     },
+     "updatedAt": {
+      "format": "date-time",
+      "title": "Updatedat",
+      "type": "string"
+     }
+    },
+    "required": [
+     "id",
+     "title",
+     "status",
+     "updatedAt"
+    ],
+    "title": "SongSummary",
+    "type": "object"
+   },
+   "SongUpdate": {
+    "additionalProperties": false,
+    "properties": {
+     "bpm": {
+      "anyOf": [
+       {
+        "maximum": 300.0,
+        "minimum": 20.0,
+        "type": "integer"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Bpm"
+     },
+     "genre": {
+      "default": "",
+      "maxLength": 500,
+      "title": "Genre",
+      "type": "string"
+     },
+     "language": {
+      "default": "zh-CN",
+      "maxLength": 40,
+      "pattern": "^[a-zA-Z]{2,3}(?:-[a-zA-Z0-9]{2,8})*$",
+      "title": "Language",
+      "type": "string"
+     },
+     "mood": {
+      "default": "",
+      "maxLength": 500,
+      "title": "Mood",
+      "type": "string"
+     },
+     "revision": {
+      "minimum": 0.0,
+      "title": "Revision",
+      "type": "integer"
+     },
+     "status": {
+      "default": "draft",
+      "enum": [
+       "draft",
+       "writing",
+       "ready_for_suno",
+       "audio_imported",
+       "complete"
+      ],
+      "title": "Status",
+      "type": "string"
+     },
+     "targetSeconds": {
+      "anyOf": [
+       {
+        "maximum": 1200.0,
+        "minimum": 1.0,
+        "type": "integer"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Targetseconds"
+     },
+     "theme": {
+      "default": "",
+      "maxLength": 500,
+      "title": "Theme",
+      "type": "string"
+     },
+     "title": {
+      "default": "Untitled song",
+      "maxLength": 200,
+      "minLength": 1,
+      "title": "Title",
+      "type": "string"
+     },
+     "vocalType": {
+      "default": "",
+      "maxLength": 500,
+      "title": "Vocaltype",
+      "type": "string"
+     }
+    },
+    "required": [
+     "revision"
+    ],
+    "title": "SongUpdate",
     "type": "object"
    },
    "SpeechAuthCapabilities": {
@@ -17592,6 +18300,408 @@
      }
     },
     "summary": "Delete Model"
+   }
+  },
+  "/music/projects": {
+   "get": {
+    "operationId": "list_music_projects_music_projects_get",
+    "responses": {
+     "200": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "items": {
+          "$ref": "#/components/schemas/SongSummary"
+         },
+         "title": "Response List Music Projects Music Projects Get",
+         "type": "array"
+        }
+       }
+      },
+      "description": "Successful Response"
+     }
+    },
+    "summary": "List Music Projects",
+    "tags": [
+     "Music"
+    ]
+   },
+   "post": {
+    "operationId": "create_music_project_music_projects_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/SongFields"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "201": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Song"
+        }
+       }
+      },
+      "description": "Successful Response"
+     },
+     "422": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      },
+      "description": "Validation Error"
+     }
+    },
+    "summary": "Create Music Project",
+    "tags": [
+     "Music"
+    ]
+   }
+  },
+  "/music/projects/{project_id}": {
+   "delete": {
+    "operationId": "delete_music_project_music_projects__project_id__delete",
+    "parameters": [
+     {
+      "in": "path",
+      "name": "project_id",
+      "required": true,
+      "schema": {
+       "format": "uuid",
+       "title": "Project Id",
+       "type": "string"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/DeleteResult"
+        }
+       }
+      },
+      "description": "Successful Response"
+     },
+     "422": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      },
+      "description": "Validation Error"
+     }
+    },
+    "summary": "Delete Music Project",
+    "tags": [
+     "Music"
+    ]
+   },
+   "get": {
+    "operationId": "get_music_project_music_projects__project_id__get",
+    "parameters": [
+     {
+      "in": "path",
+      "name": "project_id",
+      "required": true,
+      "schema": {
+       "format": "uuid",
+       "title": "Project Id",
+       "type": "string"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Song"
+        }
+       }
+      },
+      "description": "Successful Response"
+     },
+     "422": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      },
+      "description": "Validation Error"
+     }
+    },
+    "summary": "Get Music Project",
+    "tags": [
+     "Music"
+    ]
+   },
+   "put": {
+    "operationId": "update_music_project_music_projects__project_id__put",
+    "parameters": [
+     {
+      "in": "path",
+      "name": "project_id",
+      "required": true,
+      "schema": {
+       "format": "uuid",
+       "title": "Project Id",
+       "type": "string"
+      }
+     }
+    ],
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/SongUpdate"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Song"
+        }
+       }
+      },
+      "description": "Successful Response"
+     },
+     "422": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      },
+      "description": "Validation Error"
+     }
+    },
+    "summary": "Update Music Project",
+    "tags": [
+     "Music"
+    ]
+   }
+  },
+  "/music/projects/{project_id}/audio": {
+   "post": {
+    "operationId": "import_music_audio_music_projects__project_id__audio_post",
+    "parameters": [
+     {
+      "in": "path",
+      "name": "project_id",
+      "required": true,
+      "schema": {
+       "format": "uuid",
+       "title": "Project Id",
+       "type": "string"
+      }
+     },
+     {
+      "in": "query",
+      "name": "source",
+      "required": false,
+      "schema": {
+       "default": "unknown",
+       "enum": [
+        "unknown",
+        "suno",
+        "original",
+        "third_party"
+       ],
+       "title": "Source",
+       "type": "string"
+      }
+     },
+     {
+      "in": "query",
+      "name": "rights",
+      "required": false,
+      "schema": {
+       "default": "unverified",
+       "enum": [
+        "unverified",
+        "personal_use",
+        "commercial_confirmed"
+       ],
+       "title": "Rights",
+       "type": "string"
+      }
+     },
+     {
+      "description": "UTF-8 filename, percent-encoded",
+      "in": "header",
+      "name": "x-music-filename",
+      "required": true,
+      "schema": {
+       "description": "UTF-8 filename, percent-encoded",
+       "maxLength": 720,
+       "title": "X-Music-Filename",
+       "type": "string"
+      }
+     }
+    ],
+    "requestBody": {
+     "content": {
+      "application/octet-stream": {
+       "schema": {
+        "format": "binary",
+        "type": "string"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Song"
+        }
+       }
+      },
+      "description": "Successful Response"
+     },
+     "422": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      },
+      "description": "Validation Error"
+     }
+    },
+    "summary": "Import Music Audio",
+    "tags": [
+     "Music"
+    ]
+   }
+  },
+  "/music/projects/{project_id}/lyrics": {
+   "put": {
+    "operationId": "save_music_lyrics_music_projects__project_id__lyrics_put",
+    "parameters": [
+     {
+      "in": "path",
+      "name": "project_id",
+      "required": true,
+      "schema": {
+       "format": "uuid",
+       "title": "Project Id",
+       "type": "string"
+      }
+     }
+    ],
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/LyricsInput"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Song"
+        }
+       }
+      },
+      "description": "Successful Response"
+     },
+     "422": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      },
+      "description": "Validation Error"
+     }
+    },
+    "summary": "Save Music Lyrics",
+    "tags": [
+     "Music"
+    ]
+   }
+  },
+  "/music/projects/{project_id}/suno-prompts": {
+   "put": {
+    "operationId": "save_music_suno_prompt_music_projects__project_id__suno_prompts_put",
+    "parameters": [
+     {
+      "in": "path",
+      "name": "project_id",
+      "required": true,
+      "schema": {
+       "format": "uuid",
+       "title": "Project Id",
+       "type": "string"
+      }
+     }
+    ],
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/PromptInput"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Song"
+        }
+       }
+      },
+      "description": "Successful Response"
+     },
+     "422": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      },
+      "description": "Validation Error"
+     }
+    },
+    "summary": "Save Music Suno Prompt",
+    "tags": [
+     "Music"
+    ]
    }
   },
   "/personalities": {

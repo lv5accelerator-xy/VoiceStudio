@@ -12,6 +12,86 @@
       "sourceType": "github",
       "skillPath": "vite/SKILL.md",
       "computedHash": "8995600ea3cf7c18208105011f65b9098a547a19dff446fb774e42ac726d36b1"
+    },
+    "lw-workflow": {
+      "source": "jtydhr88/lyric-writing-skills",
+      "sourceType": "github",
+      "skillPath": "plugins/lyric-writing/skills/lw-workflow/SKILL.md",
+      "computedHash": "663fff2b535731f38fb9fedb96779c363ebe29e7055622bb114bf0d3da2a8ac4",
+      "ref": "753ee94bdadcf6e0001b3f3262b7aca1cfc485fa",
+      "license": "MIT (upstream NOTICE exclusions apply)"
+    },
+    "lw-song-intent": {
+      "source": "jtydhr88/lyric-writing-skills",
+      "sourceType": "github",
+      "skillPath": "plugins/lyric-writing/skills/lw-song-intent/SKILL.md",
+      "computedHash": "fbe44f6e866c68e7c1dd9e45d335b760f1f5c6efcb22ee1e28de746c94ad9f63",
+      "ref": "753ee94bdadcf6e0001b3f3262b7aca1cfc485fa",
+      "license": "MIT (upstream NOTICE exclusions apply)"
+    },
+    "lw-structure": {
+      "source": "jtydhr88/lyric-writing-skills",
+      "sourceType": "github",
+      "skillPath": "plugins/lyric-writing/skills/lw-structure/SKILL.md",
+      "computedHash": "870897fa7cf7604b71b4aca6e60f95e8c6c6c9c7b217e63b27f063d21f42ee2e",
+      "ref": "753ee94bdadcf6e0001b3f3262b7aca1cfc485fa",
+      "license": "MIT (upstream NOTICE exclusions apply)"
+    },
+    "lw-mandarin": {
+      "source": "jtydhr88/lyric-writing-skills",
+      "sourceType": "github",
+      "skillPath": "plugins/lyric-writing/skills/lw-mandarin/SKILL.md",
+      "computedHash": "b78b8e558a93dce85e0fc502368ab722bfc70b9fb04c19ed05e27425584904d3",
+      "ref": "753ee94bdadcf6e0001b3f3262b7aca1cfc485fa",
+      "license": "MIT (upstream NOTICE exclusions apply)"
+    },
+    "lw-ai-tell-audit": {
+      "source": "jtydhr88/lyric-writing-skills",
+      "sourceType": "github",
+      "skillPath": "plugins/lyric-writing/skills/lw-ai-tell-audit/SKILL.md",
+      "computedHash": "7b647cc048f3f90b5347bb87d0b5be30a94aeec0c88fa77a1a3a66a560c10dd7",
+      "ref": "753ee94bdadcf6e0001b3f3262b7aca1cfc485fa",
+      "license": "MIT (upstream NOTICE exclusions apply)"
+    },
+    "mc-workflow": {
+      "source": "jtydhr88/music-composition-skills",
+      "sourceType": "github",
+      "skillPath": "plugins/music-composition/skills/mc-workflow/SKILL.md",
+      "computedHash": "95530d8f3d4284642c8cb4d35147102e54b59d63da3b76dfb6a5519e81b0f0ed",
+      "ref": "e283141babb8806f2798d5fd2d9e833e75c1bd26",
+      "license": "MIT (upstream NOTICE exclusions apply)"
+    },
+    "mc-style-chinese-pop": {
+      "source": "jtydhr88/music-composition-skills",
+      "sourceType": "github",
+      "skillPath": "plugins/music-composition/skills/mc-style-chinese-pop/SKILL.md",
+      "computedHash": "40e783863c4cae95d8504fa7b9634bd9241ecd4ee6aa7a1d41f28cdf8e7a1d3d",
+      "ref": "e283141babb8806f2798d5fd2d9e833e75c1bd26",
+      "license": "MIT (upstream NOTICE exclusions apply)"
+    },
+    "mc-arrangement-arch": {
+      "source": "jtydhr88/music-composition-skills",
+      "sourceType": "github",
+      "skillPath": "plugins/music-composition/skills/mc-arrangement-arch/SKILL.md",
+      "computedHash": "e77ece0a3670819ce143491e318adb2a410630593b8482cb374ea170d6544cf1",
+      "ref": "e283141babb8806f2798d5fd2d9e833e75c1bd26",
+      "license": "MIT (upstream NOTICE exclusions apply)"
+    },
+    "mc-render-compile": {
+      "source": "jtydhr88/music-composition-skills",
+      "sourceType": "github",
+      "skillPath": "plugins/music-composition/skills/mc-render-compile/SKILL.md",
+      "computedHash": "1e240dca1a7db131d1d37a6b02eb5b6612e505e77b7091b567c381d38368e84c",
+      "ref": "e283141babb8806f2798d5fd2d9e833e75c1bd26",
+      "license": "MIT (upstream NOTICE exclusions apply)"
+    },
+    "mc-ai-tell-audit": {
+      "source": "jtydhr88/music-composition-skills",
+      "sourceType": "github",
+      "skillPath": "plugins/music-composition/skills/mc-ai-tell-audit/SKILL.md",
+      "computedHash": "8f61b4cfa6d74f4b10373d8aad3dff80793a8d7624c79dd662b69bea34ba8128",
+      "ref": "e283141babb8806f2798d5fd2d9e833e75c1bd26",
+      "license": "MIT (upstream NOTICE exclusions apply)"
     }
   }
 }

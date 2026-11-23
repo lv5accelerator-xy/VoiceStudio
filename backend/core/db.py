@@ -110,6 +110,12 @@ _BASE_SCHEMA = """
         created_at REAL,
         updated_at REAL
     );
+    CREATE TABLE IF NOT EXISTS music_projects (
+        id TEXT PRIMARY KEY,
+        updated_at TEXT NOT NULL,
+        document TEXT NOT NULL
+    );
+    CREATE INDEX IF NOT EXISTS idx_music_projects_updated ON music_projects(updated_at DESC);
     CREATE TABLE IF NOT EXISTS export_history (
         id TEXT PRIMARY KEY,
         filename TEXT,

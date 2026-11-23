@@ -12,6 +12,7 @@ import {
   FilmIcon,
   WandSparklesIcon,
   MicIcon,
+  Music2Icon,
   UsersRoundIcon,
   ChevronRightIcon,
   BlocksIcon,
@@ -28,6 +29,7 @@ type Destination = readonly [
     | '/clone'
     | '/stories'
     | '/audiobook'
+    | '/music'
     | '/projects'
     | '/tools'
     | '/batch'
@@ -60,6 +62,7 @@ const dubDestinations: Destination[] = [
   ['/batch', 'nav.batch_dub', LayersIcon],
 ];
 const laterDestinations: Destination[] = [
+  ['/music', 'music.title', Music2Icon],
   ['/transcriptions', 'nav.transcribe', MicIcon],
   ['/workflows', 'workflows.title', WorkflowIcon],
   ['/projects', 'projects.title', FolderIcon],
@@ -84,6 +87,7 @@ const iconMotion: Record<Destination[0], string> = {
   '/transcriptions': 'nudge',
   '/workflows': 'pulse',
   '/projects': 'lift',
+  '/music': 'wave',
   '/tools': 'tilt',
   '/integrations': 'turn',
 };

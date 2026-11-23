@@ -170,13 +170,13 @@ async function launch({ profile, backendPort, seed }) {
  * Planned exits use session.crash() to capture guards before the process dies.
  */
 export async function withApp(t, options, body) {
-  const { profile: given, fixtures, seed = true, backend: backendMode = 'up' } = options;
+  const { profile: given, fixtures, seed = true, backend: backendMode = 'up', externalBackendPort } = options;
   const profile = given ?? makeProfile();
   // Like the real backend, report a data directory (inside the profile) for path authorization.
   const dataDir = join(profile, 'data');
   mkdirSync(dataDir, { recursive: true });
   const backend =
-    backendMode === 'up'
+    !externalBackendPort && backendMode === 'up'
       ? await startHealthBackend({
           fixtures: {
             '/system/info': {
@@ -188,7 +188,7 @@ export async function withApp(t, options, body) {
           },
         })
       : null;
-  let backendPort = backend ? backend.port : await freePort();
+  let backendPort = externalBackendPort ?? backend?.port ?? (await freePort());
   const live = [];
   const session = { profile, backend, relaunch: null, crash: null };
   const start = async () => {
@@ -199,7 +199,7 @@ export async function withApp(t, options, body) {
       async () => {
         backendPort = await freePort();
       },
-      backend ? 1 : 3,
+      backend || externalBackendPort ? 1 : 3,
     );
     live.push(started);
     Object.assign(session, started);
