@@ -4434,7 +4434,6 @@
     "suno_help": "Erstelle deinen Titel auf der offiziellen Suno-Website. Kopiere dazu die benötigten Felder.",
     "audio_help": "Wähle eine lokale WAV- oder MP3-Datei mit höchstens 256 MiB und 20 Minuten. Prüfe die Nutzungsrechte eigenständig.",
     "delete_policy": "„{{title}}“ und gespeicherte Texte, Prompts und Analysen löschen? Originaldateien und importierte Kopien bleiben erhalten.",
-    "planned": "Geplant: Spurentrennung, Mixing und Musikvideoproduktion.",
     "errors": {
       "project_missing": "Dieses Projekt wurde nicht gefunden.",
       "project_conflict": "Die gespeicherten Details wurden geändert. Lade sie vor der Bearbeitung erneut.",
@@ -4456,6 +4455,35 @@
     "copy_failed": "Das Kopieren ist fehlgeschlagen",
     "saved": "Gespeichert",
     "no_projects": "Noch keine Projekte",
-    "delete_project": "Projekt löschen"
+    "delete_project": "Projekt löschen",
+    "production": {
+      "title": "Produktion",
+      "stems": "Spurtrennung",
+      "none": "Originalspur verwenden",
+      "two": "Gesang und Begleitung",
+      "four": "Vier Spuren",
+      "vocals": "Gesang",
+      "accompaniment": "Begleitung",
+      "drums": "Schlagzeug",
+      "bass": "Bass",
+      "other": "Sonstige",
+      "source": "Quelle",
+      "gain": "Verstärkung (dB)",
+      "treble": "Höhen",
+      "solo": "Solo",
+      "compress": "Kompressor",
+      "video": "MP4-Hintergrund",
+      "storyboard": "Storyboard-Cues (JSON, Millisekunden)",
+      "weights": "Installiere oder prüfe die lokalen Demucs-Gewichte vor der Trennung.",
+      "inputs": "Eingaben",
+      "mix": "WAV-Mix rendern",
+      "mv": "Musikvideo",
+      "export": "Export",
+      "pending": "In Warteschlange",
+      "running": "Läuft",
+      "done": "Fertig",
+      "failed": "Fehlgeschlagen",
+      "cancelled": "Abgebrochen"
+    }
   }
 }

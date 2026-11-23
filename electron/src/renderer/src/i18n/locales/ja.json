@@ -4434,7 +4434,6 @@
     "suno_help": "Sunoの公式サイトで楽曲を生成します。準備ができたら必要な項目をコピーしてください。",
     "audio_help": "256 MiB以下、20分以内のローカルWAVまたはMP3を選択してください。利用権限はご自身で確認してください。",
     "delete_policy": "「{{title}}」と保存済みの歌詞、プロンプト、分析結果を削除しますか？元ファイルと取り込んだコピーは保持されます。",
-    "planned": "今後の予定：ステム分離、ミキシング、ミュージックビデオ制作。",
     "errors": {
       "project_missing": "このプロジェクトが見つかりません。",
       "project_conflict": "保存済みの情報が変更されました。再編集する前に読み込んでください。",
@@ -4456,6 +4455,35 @@
     "copy_failed": "コピーに失敗しました",
     "saved": "保存済み",
     "no_projects": "まだプロジェクトはありません",
-    "delete_project": "プロジェクトの削除"
+    "delete_project": "プロジェクトの削除",
+    "production": {
+      "title": "楽曲制作",
+      "stems": "ステム分離",
+      "none": "元のトラックを使用",
+      "two": "ボーカルと伴奏",
+      "four": "4ステム",
+      "vocals": "ボーカル",
+      "accompaniment": "伴奏",
+      "drums": "ドラム",
+      "bass": "ベース",
+      "other": "その他",
+      "source": "元音源",
+      "gain": "ゲイン（dB）",
+      "treble": "高音",
+      "solo": "ソロ",
+      "compress": "コンプレッサー",
+      "video": "背景MP4",
+      "storyboard": "絵コンテの字幕キュー（JSON、ミリ秒）",
+      "weights": "分離の前にローカルのDemucsモデルをインストールまたは確認してください。",
+      "inputs": "入力",
+      "mix": "WAVミックスを書き出す",
+      "mv": "ミュージックビデオ",
+      "export": "書き出し",
+      "pending": "待機中",
+      "running": "処理中",
+      "done": "完了",
+      "failed": "失敗",
+      "cancelled": "キャンセル済み"
+    }
   }
 }

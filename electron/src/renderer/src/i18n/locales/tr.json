@@ -4434,7 +4434,6 @@
     "suno_help": "Parçayı Suno’nun resmî sitesinde oluşturun. Hazır olunca bu alanları kopyalayın.",
     "audio_help": "256 MiB ve 20 dakikayı aşmayan yerel WAV veya MP3 dosyası seçin. Kullanım haklarını kendiniz doğrulayın.",
     "delete_policy": "“{{title}}” ve kayıtlı sözler, istemler ve analizler silinsin mi? Özgün dosyalar ve içe aktarılan kopyalar saklanır.",
-    "planned": "Planlananlar: ses kanallarını ayırma, miks ve müzik videosu yapımı.",
     "errors": {
       "project_missing": "Bu proje bulunamadı.",
       "project_conflict": "Kayıtlı bilgiler değişti. Yeniden düzenlemeden önce yükleyin.",
@@ -4456,6 +4455,35 @@
     "copy_failed": "Kopyalama başarısız oldu",
     "saved": "Kaydedildi",
     "no_projects": "Henüz proje yok",
-    "delete_project": "Projeyi sil"
+    "delete_project": "Projeyi sil",
+    "production": {
+      "title": "Prodüksiyon",
+      "stems": "Kanal ayırma",
+      "none": "Orijinal kanalı kullan",
+      "two": "Vokal ve eşlik",
+      "four": "Dört kanal",
+      "vocals": "Vokal",
+      "accompaniment": "Eşlik",
+      "drums": "Davul",
+      "bass": "Bas",
+      "other": "Diğer",
+      "source": "Kaynak",
+      "gain": "Kazanç (dB)",
+      "treble": "Tiz",
+      "solo": "Solo",
+      "compress": "Kompresör",
+      "video": "MP4 arka plan",
+      "storyboard": "Sahne zamanları (JSON, milisaniye)",
+      "weights": "Kanalları ayırmadan önce yerel Demucs ağırlıklarını kurun veya doğrulayın.",
+      "inputs": "Girdiler",
+      "mix": "WAV miksini oluştur",
+      "mv": "Müzik videosu",
+      "export": "Dışa aktar",
+      "pending": "Kuyrukta",
+      "running": "Çalışıyor",
+      "done": "Tamamlandı",
+      "failed": "Başarısız",
+      "cancelled": "İptal edildi"
+    }
   }
 }

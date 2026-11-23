@@ -1499,6 +1499,9 @@ async def _application_lifespan(app: FastAPI):
         await asyncio.to_thread(_phase_a_finished.wait, 20.0)
     await _wait_for_profile_reconcile_thread(app)
     await _wait_for_analytics_thread(app)
+    from core.job_queue import gpu_queue
+
+    await gpu_queue.stop()
     try:
         from services.telephony import gateway as telephony_gateway
         await telephony_gateway.stop()

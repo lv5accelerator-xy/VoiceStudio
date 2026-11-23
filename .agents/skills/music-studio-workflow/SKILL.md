@@ -29,3 +29,9 @@ For the pinned supplemental skills, see [installation and source information](..
 When the user authorizes a local project write, identify its UUID via the local backend, then send reviewed UTF-8 lyrics and prompt content with the commands in the project guide. Reuse the same version UUID when retrying the same write. Report which versions the backend returned. If the backend is unavailable, deliver the text and JSON for manual import or paste and state that the project was not changed.
 
 The user opens the official Suno site, starts generation there, downloads the selected result, and imports that local file. Keep source and usage-rights state distinct. Use an unverified state until the user confirms the rights.
+
+## Production workflow
+
+After the user imports their local audio, identify the exact song, audio, lyric, and prompt version IDs. Prepare a storyboard as ordered non-overlapping `{startMs,endMs,text}` entries within the selected take. Timing derived from an equal split is approximate. Use measured timing when provided.
+
+Ask the user to choose or import any generated video they want as an MP4 background. The workbench keeps this asset local. With user authorization to start production, call the local `POST /music/projects/{id}/production` with the selected IDs, optional storyboard, track settings, BPM and aspect ratio. Inspect production history and report saved checkpoints and export filenames. When a run fails after a completed checkpoint, retry that run only if its inputs still match the intended work.

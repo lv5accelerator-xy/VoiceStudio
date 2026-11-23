@@ -4434,7 +4434,6 @@
     "suno_help": "Maak je track op de officiële Suno-site. Kopieer deze velden zodra je klaar bent.",
     "audio_help": "Kies een lokaal WAV- of MP3-bestand van maximaal 256 MiB en 20 minuten. Controleer zelf de gebruiksrechten.",
     "delete_policy": "“{{title}}” en de opgeslagen teksten, prompts en analyses verwijderen? Originelen en geïmporteerde kopieën blijven behouden.",
-    "planned": "Gepland: sporen scheiden, mixen en videoclips maken.",
     "errors": {
       "project_missing": "Dit project is niet gevonden.",
       "project_conflict": "De opgeslagen gegevens zijn gewijzigd. Laad ze voordat je opnieuw bewerkt.",
@@ -4456,6 +4455,35 @@
     "copy_failed": "Kopiëren mislukt",
     "saved": "Opgeslagen",
     "no_projects": "Nog geen projecten",
-    "delete_project": "Project verwijderen"
+    "delete_project": "Project verwijderen",
+    "production": {
+      "title": "Productie",
+      "stems": "Sporen scheiden",
+      "none": "Origineel spoor gebruiken",
+      "two": "Zang en begeleiding",
+      "four": "Vier sporen",
+      "vocals": "Zang",
+      "accompaniment": "Begeleiding",
+      "drums": "Drums",
+      "bass": "Bas",
+      "other": "Overig",
+      "source": "Bron",
+      "gain": "Versterking (dB)",
+      "treble": "Hoge tonen",
+      "solo": "Solo",
+      "compress": "Compressor",
+      "video": "MP4-achtergrond",
+      "storyboard": "Storyboardmarkeringen (JSON, milliseconden)",
+      "weights": "Installeer of controleer de lokale Demucs-gewichten voordat je sporen scheidt.",
+      "inputs": "Invoer",
+      "mix": "WAV-mix renderen",
+      "mv": "Muziekvideo",
+      "export": "Exporteren",
+      "pending": "In wachtrij",
+      "running": "Actief",
+      "done": "Voltooid",
+      "failed": "Mislukt",
+      "cancelled": "Geannuleerd"
+    }
   }
 }

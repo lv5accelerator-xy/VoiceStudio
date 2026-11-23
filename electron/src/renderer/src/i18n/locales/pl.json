@@ -4466,7 +4466,6 @@
     "suno_help": "Wygeneruj utwór na oficjalnej stronie Suno. Skopiuj pola, gdy będą gotowe.",
     "audio_help": "Wybierz lokalny WAV lub MP3 o rozmiarze do 256 MiB i długości do 20 minut. Samodzielnie sprawdź prawa do użycia.",
     "delete_policy": "Usunąć „{{title}}” oraz zapisane teksty, prompty i analizy? Oryginały i zaimportowane kopie pozostaną.",
-    "planned": "W planach: rozdzielanie ścieżek, miks i produkcja teledysków.",
     "errors": {
       "project_missing": "Nie znaleziono projektu.",
       "project_conflict": "Zapisane dane zmieniły się. Wczytaj je przed dalszą edycją.",
@@ -4488,6 +4487,35 @@
     "copy_failed": "Kopiowanie nie powiodło się",
     "saved": "Zapisano",
     "no_projects": "Nie ma jeszcze żadnych projektów",
-    "delete_project": "Usuń projekt"
+    "delete_project": "Usuń projekt",
+    "production": {
+      "title": "Produkcja",
+      "stems": "Rozdzielanie ścieżek",
+      "none": "Użyj ścieżki oryginalnej",
+      "two": "Wokal i podkład",
+      "four": "Cztery ścieżki",
+      "vocals": "Wokal",
+      "accompaniment": "Podkład",
+      "drums": "Perkusja",
+      "bass": "Bas",
+      "other": "Pozostałe",
+      "source": "Źródło",
+      "gain": "Wzmocnienie (dB)",
+      "treble": "Wysokie tony",
+      "solo": "Solo",
+      "compress": "Kompresor",
+      "video": "Tło MP4",
+      "storyboard": "Znaczniki scen (JSON, milisekundy)",
+      "weights": "Zainstaluj lub zweryfikuj lokalne wagi Demucs przed rozdzieleniem ścieżek.",
+      "inputs": "Dane wejściowe",
+      "mix": "Renderuj miks WAV",
+      "mv": "Teledysk",
+      "export": "Eksport",
+      "pending": "W kolejce",
+      "running": "W toku",
+      "done": "Gotowe",
+      "failed": "Niepowodzenie",
+      "cancelled": "Anulowano"
+    }
   }
 }

@@ -111,7 +111,7 @@ export function installAppProtocol(
 
 // Large local uploads need backpressure through the desktop proxy.
 const STREAMED_UPLOAD_PATHS = new Set(['/dub/upload', '/convert']);
-const MUSIC_AUDIO_UPLOAD = /^\/music\/projects\/[a-f0-9-]{36}\/audio$/;
+const MUSIC_MEDIA_UPLOAD = /^\/music\/projects\/[a-f0-9-]{36}\/(?:audio|video)$/;
 
 async function proxyToBackend(
   request: Request,
@@ -140,7 +140,7 @@ async function proxyToBackend(
     };
     if (
       request.method === 'POST' &&
-      (STREAMED_UPLOAD_PATHS.has(rest) || MUSIC_AUDIO_UPLOAD.test(rest)) &&
+      (STREAMED_UPLOAD_PATHS.has(rest) || MUSIC_MEDIA_UPLOAD.test(rest)) &&
       options.body
     ) {
       const destination = new URL(target);

@@ -4434,7 +4434,6 @@
     "suno_help": "Generate your track on the official Suno site. Copy these fields when you are ready.",
     "audio_help": "Choose a local WAV or MP3 up to 256 MiB and 20 minutes. Confirm usage rights independently.",
     "delete_policy": "Delete “{{title}}” and its saved lyrics, prompts, and analysis? Original files and the studio’s imported copies are retained.",
-    "planned": "Planned: stem separation, mixing, and music video production.",
     "errors": {
       "project_missing": "This project could not be found.",
       "project_conflict": "The saved details changed. Load them before editing again.",
@@ -4456,6 +4455,35 @@
     "copy_failed": "Copy failed",
     "saved": "Saved",
     "no_projects": "No projects yet",
-    "delete_project": "Delete project"
+    "delete_project": "Delete project",
+    "production": {
+      "title": "Production",
+      "stems": "Stem separation",
+      "none": "Use original track",
+      "two": "Vocals and accompaniment",
+      "four": "Four stems",
+      "vocals": "Vocals",
+      "accompaniment": "Accompaniment",
+      "drums": "Drums",
+      "bass": "Bass",
+      "other": "Other",
+      "source": "Source",
+      "gain": "Gain (dB)",
+      "treble": "Treble",
+      "solo": "Solo",
+      "compress": "Compressor",
+      "video": "MP4 background",
+      "storyboard": "Storyboard cues (JSON, milliseconds)",
+      "weights": "Install or verify the local Demucs weights before separating tracks.",
+      "inputs": "Inputs",
+      "mix": "Render WAV mix",
+      "mv": "Music video",
+      "export": "Export",
+      "pending": "Queued",
+      "running": "Running",
+      "done": "Done",
+      "failed": "Failed",
+      "cancelled": "Cancelled"
+    }
   }
 }

@@ -4434,7 +4434,6 @@
     "suno_help": "Buat lagu di situs resmi Suno. Salin isian ini saat siap.",
     "audio_help": "Pilih WAV atau MP3 lokal hingga 256 MiB dan 20 menit. Konfirmasikan hak penggunaan secara mandiri.",
     "delete_policy": "Hapus “{{title}}” beserta lirik, prompt, dan analisis tersimpan? File asli dan salinan impor akan disimpan.",
-    "planned": "Direncanakan: pemisahan trek, mixing, dan pembuatan video musik.",
     "errors": {
       "project_missing": "Proyek ini tidak ditemukan.",
       "project_conflict": "Detail tersimpan berubah. Muat detail tersebut sebelum mengedit kembali.",
@@ -4456,6 +4455,35 @@
     "copy_failed": "Penyalinan gagal",
     "saved": "Tersimpan",
     "no_projects": "Belum ada proyek",
-    "delete_project": "Hapus proyek"
+    "delete_project": "Hapus proyek",
+    "production": {
+      "title": "Produksi",
+      "stems": "Pemisahan trek",
+      "none": "Gunakan trek asli",
+      "two": "Vokal dan iringan",
+      "four": "Empat trek",
+      "vocals": "Vokal",
+      "accompaniment": "Iringan",
+      "drums": "Drum",
+      "bass": "Bas",
+      "other": "Lainnya",
+      "source": "Sumber",
+      "gain": "Penguatan (dB)",
+      "treble": "Treble",
+      "solo": "Solo",
+      "compress": "Kompresor",
+      "video": "Latar MP4",
+      "storyboard": "Penanda storyboard (JSON, milidetik)",
+      "weights": "Pasang atau periksa bobot Demucs lokal sebelum memisahkan trek.",
+      "inputs": "Masukan",
+      "mix": "Render campuran WAV",
+      "mv": "Video musik",
+      "export": "Ekspor",
+      "pending": "Dalam antrean",
+      "running": "Berjalan",
+      "done": "Selesai",
+      "failed": "Gagal",
+      "cancelled": "Dibatalkan"
+    }
   }
 }

@@ -4434,7 +4434,6 @@
     "suno_help": "在 Suno 官方網站生成歌曲，準備好後複製所需內容。",
     "audio_help": "選擇本機 WAV 或 MP3，檔案不得超過 256 MiB，長度不得超過 20 分鐘。請自行確認授權。",
     "delete_policy": "刪除「{{title}}」與已儲存的歌詞、提示詞和分析記錄？原始檔案和工作台匯入的副本都會保留。",
-    "planned": "後續規劃加入分軌、混音和 MV 製作。",
     "errors": {
       "project_missing": "找不到此音樂專案。",
       "project_conflict": "歌曲資訊已變更。請先載入已儲存的資訊再編輯。",
@@ -4456,6 +4455,35 @@
     "copy_failed": "複製失敗",
     "saved": "已儲存",
     "no_projects": "還沒有項目",
-    "delete_project": "刪除項目"
+    "delete_project": "刪除項目",
+    "production": {
+      "title": "音樂製作",
+      "stems": "分軌",
+      "none": "使用原音軌",
+      "two": "人聲與伴奏",
+      "four": "四軌分離",
+      "vocals": "人聲",
+      "accompaniment": "伴奏",
+      "drums": "鼓",
+      "bass": "低音",
+      "other": "其他",
+      "source": "原音軌",
+      "gain": "增益（dB）",
+      "treble": "高音",
+      "solo": "獨奏",
+      "compress": "壓縮器",
+      "video": "MP4 背景影片",
+      "storyboard": "分鏡字幕（JSON，毫秒）",
+      "weights": "請先安裝或驗證本機 Demucs 權重，再進行分軌。",
+      "inputs": "輸入",
+      "mix": "匯出 WAV 混音",
+      "mv": "音樂影片",
+      "export": "匯出",
+      "pending": "排隊中",
+      "running": "執行中",
+      "done": "已完成",
+      "failed": "失敗",
+      "cancelled": "已取消"
+    }
   }
 }

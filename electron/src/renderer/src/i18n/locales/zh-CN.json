@@ -4434,7 +4434,6 @@
     "suno_help": "在 Suno 官网生成歌曲。准备好后复制所需内容。",
     "audio_help": "选择本地 WAV 或 MP3，文件不超过 256 MiB，时长不超过 20 分钟。请自行确认使用授权。",
     "delete_policy": "删除「{{title}}」以及已保存的歌词、提示词和分析记录？原始文件和工作台导入的副本都会保留。",
-    "planned": "后续阶段将加入分轨、混音和 MV 制作。",
     "errors": {
       "project_missing": "找不到此音乐项目。",
       "project_conflict": "歌曲信息已被修改。请载入已保存的信息后再编辑。",
@@ -4456,6 +4455,35 @@
     "copy_failed": "复制失败",
     "saved": "已保存",
     "no_projects": "还没有项目",
-    "delete_project": "删除项目"
+    "delete_project": "删除项目",
+    "production": {
+      "title": "音乐制作",
+      "stems": "分轨",
+      "none": "使用原音轨",
+      "two": "人声与伴奏",
+      "four": "四轨分离",
+      "vocals": "人声",
+      "accompaniment": "伴奏",
+      "drums": "鼓",
+      "bass": "低音",
+      "other": "其他",
+      "source": "原音轨",
+      "gain": "增益（dB）",
+      "treble": "高音",
+      "solo": "独奏",
+      "compress": "压缩器",
+      "video": "MP4 背景视频",
+      "storyboard": "分镜字幕（JSON，毫秒）",
+      "weights": "请先安装或验证本机 Demucs 权重，再进行分轨。",
+      "inputs": "输入",
+      "mix": "导出 WAV 混音",
+      "mv": "音乐视频",
+      "export": "导出",
+      "pending": "排队中",
+      "running": "运行中",
+      "done": "已完成",
+      "failed": "失败",
+      "cancelled": "已取消"
+    }
   }
 }
