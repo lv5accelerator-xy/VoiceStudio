@@ -14,6 +14,7 @@ from uuid import uuid4
 import pytest
 from alembic import command
 from alembic.config import Config
+from alembic.script import ScriptDirectory
 from fastapi import FastAPI
 from fastapi.testclient import TestClient
 
@@ -181,20 +182,27 @@ def test_audio_transaction_rolls_back_and_retry_recovers(client, song, tmp_path,
     assert len(list((tmp_path / "music" / "originals" / song["id"]).iterdir())) == 1
 
 
-def test_namespace_migration_preserves_existing_projects(client):
+def test_music_schema_stays_outside_the_upstream_alembic_chain(client):
+    # The fork adds music_projects through _BASE_SCHEMA only. A fork-only
+    # Alembic revision would fork the chain as soon as upstream adds its next
+    # migration, and a DB stamped with it could no longer follow upstream.
+    versions = Path(__file__).resolve().parents[2] / "backend" / "migrations" / "versions"
+    assert not [path.name for path in versions.glob("*.py") if "music" in path.read_text(encoding="utf-8")]
+
     ini = Path(__file__).resolve().parents[2] / "alembic.ini"
     alembic = Config(str(ini))
+    upstream_head = ScriptDirectory.from_config(alembic).get_current_head()
     with db.db_conn() as conn:
         conn.execute("DROP TABLE music_projects")
         conn.execute(
             "INSERT INTO studio_projects (id, name, state_json) VALUES (?, ?, ?)",
             ("original", "Existing dubbing project", json.dumps({"timeline": [1]})),
         )
-    command.stamp(alembic, "0019_list_sort_indexes")
-    command.upgrade(alembic, "head")
+    command.stamp(alembic, upstream_head)
+    db.init_db()
     assert client.post(BASE, json={"title": "New song"}).status_code == 201
     with db.db_conn() as conn:
-        assert conn.execute("SELECT version_num FROM alembic_version").fetchone()[0] == "0020_music_projects"
+        assert conn.execute("SELECT version_num FROM alembic_version").fetchone()[0] == upstream_head
         original = conn.execute("SELECT * FROM studio_projects WHERE id='original'").fetchone()
         assert original["name"] == "Existing dubbing project"
         assert json.loads(original["state_json"]) == {"timeline": [1]}

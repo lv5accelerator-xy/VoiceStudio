@@ -5,6 +5,7 @@ import hashlib
 import json
 import logging
 import os
+import shutil
 import sys
 from pathlib import Path
 from shutil import copyfile, which
@@ -107,6 +108,46 @@ def model_path() -> Path:
     return Path(os.environ.get("XDG_CACHE_HOME", Path.home() / ".cache")) / "torch" / "hub" / "checkpoints" / WEIGHT
 
 
+def reuse_file(source: Path, target: Path) -> None:
+    """Share a completed artifact with a retry; fall back to a copy across volumes."""
+    try:
+        os.link(source, target)
+    except OSError:
+        copyfile(source, target)
+
+
+def project_root(project_id: UUID) -> Path:
+    return resolve_within(config.DATA_DIR, f"music/production/{project_id}")
+
+
+def active_run(project_id: UUID) -> bool:
+    return bool(job_store.list_jobs(status="active", project_id=str(project_id), types=(JOB_TYPE,), limit=1))
+
+
+def visible(row: dict) -> bool:
+    """Deleted runs keep their job row but lose their output directory."""
+    if row["status"] in {"pending", "running"}:
+        return True
+    return output_root(UUID(row["project_id"]), UUID(row["id"])).is_dir()
+
+
+def delete_run(project_id: UUID, run_id: UUID) -> None:
+    state = get(project_id, run_id)
+    if state.state in {"pending", "running"}:
+        raise MusicError("production_busy", 409)
+    shutil.rmtree(output_root(project_id, run_id), ignore_errors=True)
+
+
+def delete_project_outputs(project_id: UUID) -> None:
+    """Remove regenerable production outputs (stems, mixes, renders).
+
+    Imported audio and background video copies stay, as the delete dialog says.
+    """
+    if active_run(project_id):
+        raise MusicError("production_busy", 409)
+    shutil.rmtree(project_root(project_id), ignore_errors=True)
+
+
 def file_digest(path: Path) -> str:
     with path.open("rb") as file:
         return hashlib.file_digest(file, "sha256").hexdigest()
@@ -133,6 +174,26 @@ async def media(job: Job, args: list[str], *, tool: Literal["ffmpeg", "ffprobe"]
     return out
 
 
+DEMUCS_LEAN_FLAGS = ["--segment", "4", "--overlap", "0.1"]
+
+
+def demucs_device() -> str:
+    """The app's chosen device when Demucs supports it, otherwise CPU.
+
+    Uses the same detection as dubbing, including an explicit CPU choice in
+    Settings. Demucs accepts torch device names only, so DirectML and XPU
+    hosts separate on the CPU.
+    """
+    try:
+        from services.model_manager import get_best_device
+
+        device = get_best_device()
+    except Exception:
+        logger.warning("Device detection failed; separating on CPU", exc_info=True)
+        return "cpu"
+    return device if device in {"cuda", "mps"} else "cpu"
+
+
 async def separate(job: Job, source: Path, directory: Path, mode: str, weight: Path) -> list[str]:
     with TemporaryDirectory(dir=directory) as working:
         temp = Path(working)
@@ -142,13 +203,26 @@ async def separate(job: Job, source: Path, directory: Path, mode: str, weight: P
         await run_in_threadpool(copyfile, weight, repo / WEIGHT)
         path = temp / "source.wav"
         await media(job, ["-v", "error", "-nostdin", "-i", str(source), "-map", "0:a:0", "-c:a", "pcm_f32le", str(path)])
-        cmd = [
-            sys.executable, "-m", "demucs.separate", "--repo", str(repo), "-n", "955717e8",
-            "--float32", "--shifts", "0", "-d", "cpu", "-j", "1", "-o", str(temp),
-        ]
-        if mode == "two":
-            cmd.extend(["--two-stems", "vocals"])
-        await run_child(job, [*cmd, str(path)], "demucs_failed")
+        device = await run_in_threadpool(demucs_device)
+        attempts = [(device, [])] + ([("cpu", DEMUCS_LEAN_FLAGS)] if device != "cpu" else [])
+        for index, (dev, extra) in enumerate(attempts):
+            cmd = [
+                sys.executable, "-m", "demucs.separate", "--repo", str(repo), "-n", "955717e8",
+                "--float32", "--shifts", "0", "-d", dev, "-j", "1", *extra, "-o", str(temp),
+            ]
+            if mode == "two":
+                cmd.extend(["--two-stems", "vocals"])
+            try:
+                await run_child(job, [*cmd, str(path)], "demucs_failed", stderr_log=temp / "demucs.log")
+                break
+            except MusicError:
+                verify_active(job)
+                if index + 1 == len(attempts):
+                    raise
+                # A GPU run that fails (driver, memory) retries leaner on CPU,
+                # matching the dubbing separation ladder.
+                logger.warning("Demucs failed on %s; retrying on CPU", dev)
+                shutil.rmtree(temp / "955717e8", ignore_errors=True)
         names = {"vocals": "vocals", "accompaniment": "no_vocals"} if mode == "two" else {
             name: name for name in ("vocals", "drums", "bass", "other")
         }
@@ -190,15 +264,25 @@ def lyric_cues(text: str, duration: float, storyboard: list[Cue]) -> list[dict]:
             for line, start, end in items]
 
 
-async def run_child(job: Job, cmd: list[str], error: str) -> None:
+async def run_child(job: Job, cmd: list[str], error: str, *, stderr_log: Path | None = None) -> None:
+    """Run a trusted local child. ``stderr_log`` keeps its stderr for the log on failure."""
+    from core.logging_utils import log_safe
     from services.proc_registry import register_proc, unregister_proc
 
-    proc = await ffmpeg_utils.spawn_subprocess(*cmd, stdout=asyncio.subprocess.DEVNULL,
-                                              stderr=asyncio.subprocess.DEVNULL)
+    log_file = stderr_log.open("wb") if stderr_log else None
+    try:
+        proc = await ffmpeg_utils.spawn_subprocess(*cmd, stdout=asyncio.subprocess.DEVNULL,
+                                                  stderr=log_file or asyncio.subprocess.DEVNULL)
+    finally:
+        if log_file:
+            log_file.close()
     register_proc(job.id, proc)
     try:
         verify_active(job)
         if await asyncio.wait_for(proc.wait(), 1800):
+            if stderr_log and not job.is_cancelled:
+                tail = stderr_log.read_bytes()[-4000:].decode("utf-8", errors="replace")
+                logger.warning("%s exited with %s: %s", error, proc.returncode, log_safe(tail, limit=4000))
             raise MusicError(error, 422)
     finally:
         unregister_proc(job.id, proc)
@@ -292,7 +376,7 @@ def snapshot(row: dict) -> ProductionState:
 
 def get(project_id: UUID, run_id: UUID) -> ProductionState:
     row = job_store.get(str(run_id))
-    if not row or row["type"] != JOB_TYPE or row["project_id"] != str(project_id):
+    if not row or row["type"] != JOB_TYPE or row["project_id"] != str(project_id) or not visible(row):
         raise MusicError("production_missing", 404)
     return snapshot(row)
 
@@ -325,7 +409,7 @@ async def start(project_id: UUID, req: ProductionRequest, previous: ProductionSt
         reusable = None
     reuse_stems = bool(reusable and "stems" in reusable.completed)
     weight = await run_in_threadpool(local_weight) if req.separation != "none" and not reuse_stems else None
-    if job_store.list_jobs(status="active", project_id=str(project_id), types=(JOB_TYPE,), limit=1):
+    if active_run(project_id):
         raise MusicError("production_busy", 409)
     run_id = uuid4()
     ident = str(run_id)
@@ -340,19 +424,18 @@ async def start(project_id: UUID, req: ProductionRequest, previous: ProductionSt
     async def run(job: Job):
         job_store.mark_running(ident)
         try:
-            directory.mkdir(parents=True)
             checkpoint("inputs", [])
             stems = []
             if reuse_stems:
                 stems = [name for name in reusable.artifacts if name in {"vocals.wav", "accompaniment.wav", "drums.wav", "bass.wav", "other.wav"}]
                 for name in stems:
-                    await run_in_threadpool(copyfile, resolve_within(output_root(project_id, reusable.id), name), directory / name)
+                    await run_in_threadpool(reuse_file, resolve_within(output_root(project_id, reusable.id), name), directory / name)
             elif weight:
                 stems = await separate(job, source, directory, req.separation, weight)
             verify_active(job)
             checkpoint("stems", stems)
             if reusable and "mix" in reusable.completed:
-                await run_in_threadpool(copyfile, output_root(project_id, reusable.id) / "mix.wav", directory / "mix.wav")
+                await run_in_threadpool(reuse_file, output_root(project_id, reusable.id) / "mix.wav", directory / "mix.wav")
                 report = reusable.analysis
             else:
                 await mix(job, source, stems, directory, req)
@@ -368,7 +451,7 @@ async def start(project_id: UUID, req: ProductionRequest, previous: ProductionSt
                 if req.videoPrompt.strip():
                     if reusable and "provider.mp4" in reusable.artifacts:
                         background = directory / "provider.mp4"
-                        await run_in_threadpool(copyfile, output_root(project_id, reusable.id) / "provider.mp4", background)
+                        await run_in_threadpool(reuse_file, output_root(project_id, reusable.id) / "provider.mp4", background)
                     else:
                         background = await generate_video(job, directory, req, asset.durationSeconds)
                     verify_active(job)
@@ -401,6 +484,9 @@ async def start(project_id: UUID, req: ProductionRequest, previous: ProductionSt
                 logger.warning("Music production stopped (%s)", type(exc).__name__, exc_info=True)
                 job_store.mark_failed(ident, exc.code if isinstance(exc, MusicError) else "production_failed")
 
+    # Created before the job row so a listed run always has its directory;
+    # deleting a run removes it (see visible()).
+    directory.mkdir(parents=True)
     job_store.create(ident, type=JOB_TYPE, project_id=str(project_id), meta=req.model_dump(mode="json"))
     await gpu_queue.start()
     gpu_queue.purge_finished()

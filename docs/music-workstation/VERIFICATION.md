@@ -1,4 +1,4 @@
-# Music P1 verification
+# Music M1 verification
 
 ## Linux desktop
 
@@ -24,7 +24,7 @@ ffmpeg -v error -i tone.wav -c:a libmp3lame tone.mp3
 
 ## Commands and gates
 
-- `uv run --no-sync pytest tests/music -q` ran six tests against the actual FastAPI router and SQLite. It covered migration from 0019, immutable versions and retries, reopening, unauthorized access, traversal, streamed byte limits, duplicate imports, valid WAV/MP3, silence, retained originals, and retries after a forced database write failure.
+- `uv run --no-sync pytest tests/music -q` ran six tests against the actual FastAPI router and SQLite. It covered base-schema creation on a database stamped at the upstream Alembic head, immutable versions and retries, reopening, unauthorized access, traversal, streamed byte limits, duplicate imports, valid WAV/MP3, silence, retained originals, and retries after a forced database write failure.
 - `uv run --no-sync pytest tests/music tests/test_mobile_contract.py tests/test_list_sort_indexes_migration.py tests/test_locale_parity.py tests/test_no_hardcoded_cjk.py -q` returned 398 passed and 2 skipped in the first targeted run. Run the backend gates with `HF_HUB_OFFLINE=1` and an empty `HF_HUB_CACHE`.
 - `bun install --frozen-lockfile` succeeded. `bun run --cwd electron locale:check` passed for all 22 catalogs with zero missing or orphaned keys.
 - To rerun the desktop smoke after `bun run --cwd electron build`, start the real backend with an isolated `OMNIVOICE_DATA_DIR` and the usual build dependencies. Set `VOICESTUDIO_MUSIC_SMOKE_PORT` to that backend's loopback port and `VOICESTUDIO_MUSIC_SMOKE_ARTIFACTS` to the scratch folder containing the two fixtures. Run `node --test electron/tests/music-workstation-smoke.mjs` with a native desktop session or Linux virtual display.

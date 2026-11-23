@@ -329,6 +329,19 @@ export function MusicProduction({ project }: { project: Song }) {
               {t("common.retry")}
             </Button>
           )}
+          {["done", "failed", "cancelled"].includes(run.state) && (
+            <Button
+              disabled={busy}
+              variant="ghost"
+              onClick={() =>
+                void action(() =>
+                  apiJson(`${path}/production/${run.id}`, { method: "DELETE" }),
+                )
+              }
+            >
+              {t("common.delete")}
+            </Button>
+          )}
         </section>
       ))}
     </div>

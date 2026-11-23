@@ -1,4 +1,4 @@
-# Music P2–P4 verification
+# Music M2–M4 verification
 
 The Linux Electron smoke uses the real backend and a two-second local 48 kHz test tone. It starts a production run from the workspace, verifies WAV, waveform and JSON outputs, loads the MP4 through the Electron media transport, checks 1080 × 1920 video metadata, and relaunches the app to reopen those outputs. See the [saved analysis and artifact hashes](evidence/production-report.json).
 
@@ -15,6 +15,6 @@ bun run --cwd electron build
 node --test electron/tests/music-production-smoke.mjs electron/tests/music-workstation-smoke.mjs
 ```
 
-Use the isolated backend and fixture environment described in [Music P1 verification](VERIFICATION.md). Production tests require FFmpeg and FFprobe. Set `HF_HUB_OFFLINE=1` and use an empty Hugging Face cache for Python validation.
+Use the isolated backend and fixture environment described in [Music M1 verification](VERIFICATION.md). Production tests require FFmpeg and FFprobe. Set `HF_HUB_OFFLINE=1` and use an empty Hugging Face cache for Python validation.
 
-The trained HTDemucs checkpoint was absent here. Actual two- and four-stem output quality, timing, and resource usage with installed weights are separate acceptance items. Validate the Windows and macOS native path, including Unicode file paths, playback and export, before merge or release. AI provider integration needs an explicitly configured executable and real service credentials for end-to-end service validation.
+The trained HTDemucs checkpoint was absent here. `tests/music/test_music_separation.py` runs the real Demucs CLI end to end against a tiny randomly initialized HTDemucs in the same package format: it covers repository mode, two- and four-stem file names, the GPU-to-CPU retry and logged diagnostics, but not separation quality. Actual two- and four-stem output quality, timing, and resource usage with installed weights are separate acceptance items. Validate the Windows and macOS native path, including Unicode file paths, playback and export, before merge or release. AI provider integration needs an explicitly configured executable and real service credentials for end-to-end service validation.

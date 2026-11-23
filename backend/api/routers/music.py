@@ -6,10 +6,9 @@ from urllib.parse import unquote
 from uuid import UUID
 
 from fastapi import APIRouter, Depends, Header, HTTPException, Request
-
-from api.dependencies import require_admin
 from fastapi.responses import FileResponse
 
+from api.dependencies import require_admin
 from core import job_store
 from core.job_queue import gpu_queue
 from core.path_security import resolve_within
@@ -65,7 +64,9 @@ def update_music_project(project_id: UUID, fields: SongUpdate) -> Song:
 
 @router.delete("/{project_id}")
 def delete_music_project(project_id: UUID) -> DeleteResult:
-    projects.delete(project_id)
+    with _music_errors():
+        production.delete_project_outputs(project_id)
+        projects.delete(project_id)
     return DeleteResult()
 
 
@@ -110,8 +111,9 @@ def list_music_production(project_id: UUID) -> list[production.ProductionState]:
         projects.get(project_id)
         return [
             production.snapshot(row)
-            for row in job_store.list_jobs(project_id=str(project_id), types=(production.JOB_TYPE,), limit=20)
-        ]
+            for row in job_store.list_jobs(project_id=str(project_id), types=(production.JOB_TYPE,), limit=50)
+            if production.visible(row)
+        ][:20]
 
 
 @router.post("/{project_id}/production", status_code=202)
@@ -139,6 +141,13 @@ async def cancel_music_production(project_id: UUID, run_id: UUID) -> production.
                 job_store.retire_if_active(str(run_id), "cancelled")
             proc_registry.kill_job_procs(str(run_id))
         return production.get(project_id, run_id)
+
+
+@router.delete("/{project_id}/production/{run_id}")
+def delete_music_production(project_id: UUID, run_id: UUID) -> DeleteResult:
+    with _music_errors():
+        production.delete_run(project_id, run_id)
+    return DeleteResult()
 
 
 @router.get("/{project_id}/production/{run_id}/files/{name}", response_class=FileResponse)

@@ -157,8 +157,21 @@ def test_cancel_retry_reuses_completed_mix(workbench, monkeypatch):
     monkeypatch.setattr(production, "render", original_render)
     retry = client.post(f"{url}/production/{run_id}/retry")
     assert retry.status_code == 202
-    assert settle(client, url, retry.json()["id"])["state"] == "done"
+    retry_id = retry.json()["id"]
+    assert settle(client, url, retry_id)["state"] == "done"
     assert calls == ["mix"]
+
+    # Reuse shares the completed mix instead of copying it.
+    _, _, _, data = workbench
+    project_dir = data / "music" / "production" / url.rsplit("/", 1)[1]
+    assert (project_dir / run_id / "mix.wav").stat().st_ino == (project_dir / retry_id / "mix.wav").stat().st_ino
+
+    # Deleting the cancelled run frees its directory without touching the retry.
+    assert client.delete(f"{url}/production/{run_id}").status_code == 200
+    assert not (project_dir / run_id).exists()
+    assert [row["id"] for row in client.get(url + "/production").json()] == [retry_id]
+    assert client.post(f"{url}/production/{run_id}/retry").status_code == 404
+    assert client.get(f"{url}/production/{retry_id}/files/mix.wav").status_code == 200
 
 
 def test_provider_receives_only_opted_in_video_prompt(workbench, monkeypatch):
@@ -185,3 +198,31 @@ def test_provider_receives_only_opted_in_video_prompt(workbench, monkeypatch):
     assert completed["state"] == "done", completed
     assert "provider.mp4" in completed["artifacts"]
     assert seen == [{"prompt": "A midnight train", "aspect": "landscape", "durationSeconds": 1.0}]
+
+
+def test_delete_guards_active_runs_and_removes_only_derived_outputs(workbench, monkeypatch):
+    import asyncio
+
+    client, url, asset, data = workbench
+    project_id = url.rsplit("/", 1)[1]
+
+    async def held_render(*args):
+        while not args[0].is_cancelled:
+            await asyncio.sleep(0.01)
+        production_service.verify_active(args[0])
+
+    monkeypatch.setattr(production_service, "render", held_render)
+    run_id = client.post(url + "/production", json={"audioId": asset}).json()["id"]
+    assert client.delete(f"{url}/production/{run_id}").json()["detail"] == "production_busy"
+    assert client.delete(url).json()["detail"] == "production_busy"
+    assert client.get(url).status_code == 200
+    client.post(f"{url}/production/{run_id}/cancel")
+    assert settle(client, url, run_id)["state"] == "cancelled"
+
+    background = data / "music" / "video" / project_id / "clip.mp4"
+    background.parent.mkdir(parents=True)
+    background.write_bytes(b"clip")
+    assert client.delete(url).json() == {"retainedAudio": True}
+    assert not (data / "music" / "production" / project_id).exists()
+    assert background.is_file()
+    assert len(list((data / "music" / "originals" / project_id).iterdir())) == 1

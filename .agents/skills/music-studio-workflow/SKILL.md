@@ -1,6 +1,6 @@
 ---
 name: music-studio-workflow
-description: Develop Mandarin lyrics and a manual Suno style prompt for a VoiceStudio music project, audit singability and arrangement, and save reviewed versions in the local workspace. Use when asked to write, edit, compare or package song drafts for Music P1.
+description: Develop Mandarin lyrics and a manual Suno style prompt for a VoiceStudio music project, audit singability and arrangement, and save reviewed versions in the local workspace. Use when asked to write, edit, compare or package song drafts in the AI Music workspace.
 ---
 
 # VoiceStudio music workflow

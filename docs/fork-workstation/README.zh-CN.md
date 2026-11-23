@@ -45,10 +45,14 @@ Codex / 故事、歌词、旁白脚本、角色表
 | P1 | Windows 安装及本地后端连通 | App 启动；/health 成功；/openapi.json 可访问；记录真实 CPU/GPU |
 | P2 | 中文 TTS 冒烟测试 | 用户主动选择模型并明确许可；成功产生可播放 WAV、记录时长与模型 |
 | P3 | 角色配音批处理 MVP | 输入角色台词清单；生成可追溯音频、失败重试和 manifest；无重复覆盖 |
-| P4 | Suno 音乐 + 旁白 + 音效导出 | 原始音轨独立保留；生成可复现的混音/剪辑工程 |
+| P4 | Suno 音乐 + 旁白 + 音效导出 | 原始音轨独立保留；生成可复现的混音/剪辑工程。音乐部分由下方「音乐线 M1–M4」提供 |
 | P5 | 可选 GitHub Actions Windows 构建 | 独立无签名测试产物；CI 通过；确认许可与发布配置后再考虑 Release |
 
 一阶段只允许 P0-P2，禁止未经验证就改造整个 Electron 产品。
+
+### 音乐线 M1–M4（独立编号）
+
+应用内的「AI 音乐」工作区单独编号为 M1–M4，避免与上表 P0–P5 混淆：M1 歌曲项目、歌词与 Suno 提示词版本、音频导入分析；M2 分轨与混音；M3 MV 渲染；M4 带检查点的制作流程。代码已合入，但真实 HTDemucs 权重下的分轨效果、耗时，以及 Windows 上的播放与导出，仍需按 [音乐验证说明](../music-workstation/PRODUCTION-VERIFICATION.md) 在本机验收。详见 [音乐路线图](../music-workstation/ROADMAP.md)。
 
 ## 本地 Windows 安装原则
 
