@@ -4434,7 +4434,6 @@
     "suno_help": "Skapa låten på Sunos officiella webbplats. Kopiera fälten när du är redo.",
     "audio_help": "Välj en lokal WAV- eller MP3-fil på högst 256 MiB och 20 minuter. Kontrollera användningsrättigheterna själv.",
     "delete_policy": "Ta bort ”{{title}}” och sparade texter, prompter och analyser? Originalfiler och importerade kopior sparas.",
-    "planned": "Planerat: spårseparering, mixning och musikvideor.",
     "errors": {
       "project_missing": "Projektet hittades inte.",
       "project_conflict": "De sparade uppgifterna har ändrats. Läs in dem innan du fortsätter redigera.",
@@ -4456,6 +4455,35 @@
     "copy_failed": "Kopieringen misslyckades",
     "saved": "Sparat",
     "no_projects": "Inga projekt ännu",
-    "delete_project": "Ta bort projekt"
+    "delete_project": "Ta bort projekt",
+    "production": {
+      "title": "Produktion",
+      "stems": "Spårseparering",
+      "none": "Använd originalspår",
+      "two": "Sång och komp",
+      "four": "Fyra spår",
+      "vocals": "Sång",
+      "accompaniment": "Komp",
+      "drums": "Trummor",
+      "bass": "Bas",
+      "other": "Övrigt",
+      "source": "Källa",
+      "gain": "Förstärkning (dB)",
+      "treble": "Diskant",
+      "solo": "Solo",
+      "compress": "Kompressor",
+      "video": "MP4-bakgrund",
+      "storyboard": "Storyboardmarkörer (JSON, millisekunder)",
+      "weights": "Installera eller kontrollera lokala Demucs-vikter före separering.",
+      "inputs": "Indata",
+      "mix": "Rendera WAV-mix",
+      "mv": "Musikvideo",
+      "export": "Exportera",
+      "pending": "I kö",
+      "running": "Pågår",
+      "done": "Klar",
+      "failed": "Misslyckades",
+      "cancelled": "Avbruten"
+    }
   }
 }

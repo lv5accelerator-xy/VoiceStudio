@@ -27,6 +27,7 @@ import {
   type Song,
 } from "./music-api";
 import { draftKey, promptFields, songFields, useMusicDraft } from "./music-draft";
+import { MusicProduction } from "./music-production";
 import { AudioImport, LyricsEditor, SongDetails, SunoEditor } from "./music-editors";
 import { musicError, panel, TextField } from "./music-controls";
 
@@ -120,6 +121,7 @@ function SongEditor({ project, onDelete }: { project: Song; onDelete(): void }) 
           <TabsTrigger value="lyrics">{t("music.lyrics")}</TabsTrigger>
           <TabsTrigger value="suno">{t("music.suno")}</TabsTrigger>
           <TabsTrigger value="audio">{t("music.audio")}</TabsTrigger>
+          <TabsTrigger value="production">{t("music.production.title")}</TabsTrigger>
         </TabsList>
         <TabsContent value="details">
           <SongDetails
@@ -198,6 +200,9 @@ function SongEditor({ project, onDelete }: { project: Song; onDelete(): void }) 
               run(() => importSongAudio(project.id, file, source, rights), "analyzing")
             }
           />
+        </TabsContent>
+        <TabsContent value="production" keepMounted>
+          <MusicProduction project={project} />
         </TabsContent>
       </Tabs>
       <Dialog
@@ -390,7 +395,6 @@ export function MusicPage() {
             </div>
           )}
         </div>
-        <p className="text-xs text-muted-foreground">{t("music.planned")}</p>
       </div>
     </main>
   );

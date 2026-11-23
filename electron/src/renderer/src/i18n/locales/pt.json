@@ -4436,7 +4436,6 @@
     "suno_help": "Gere sua faixa no site oficial do Suno. Copie estes campos quando estiver pronto.",
     "audio_help": "Selecione um WAV ou MP3 local de até 256 MiB e 20 minutos. Verifique os direitos de uso por conta própria.",
     "delete_policy": "Excluir “{{title}}” e as letras, os prompts e as análises salvos? Os arquivos originais e as cópias importadas serão preservados.",
-    "planned": "Planejado: separação de faixas, mixagem e produção de videoclipes.",
     "errors": {
       "project_missing": "Este projeto não foi encontrado.",
       "project_conflict": "Os dados salvos mudaram. Carregue-os antes de editar novamente.",
@@ -4458,6 +4457,35 @@
     "copy_failed": "Falha na cópia",
     "saved": "Salvo",
     "no_projects": "Ainda não há projetos",
-    "delete_project": "Excluir projeto"
+    "delete_project": "Excluir projeto",
+    "production": {
+      "title": "Produção",
+      "stems": "Separação de faixas",
+      "none": "Usar faixa original",
+      "two": "Vocais e acompanhamento",
+      "four": "Quatro faixas",
+      "vocals": "Vocais",
+      "accompaniment": "Acompanhamento",
+      "drums": "Bateria",
+      "bass": "Baixo",
+      "other": "Outros",
+      "source": "Origem",
+      "gain": "Ganho (dB)",
+      "treble": "Agudos",
+      "solo": "Solo",
+      "compress": "Compressor",
+      "video": "Fundo MP4",
+      "storyboard": "Marcações do storyboard (JSON, milissegundos)",
+      "weights": "Instale ou verifique os pesos locais do Demucs antes de separar as faixas.",
+      "inputs": "Entradas",
+      "mix": "Gerar mixagem WAV",
+      "mv": "Videoclipe",
+      "export": "Exportar",
+      "pending": "Na fila",
+      "running": "Em execução",
+      "done": "Concluído",
+      "failed": "Falhou",
+      "cancelled": "Cancelado"
+    }
   }
 }

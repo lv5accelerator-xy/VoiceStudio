@@ -8,7 +8,13 @@ from uuid import UUID
 from fastapi import APIRouter, Depends, Header, HTTPException, Request
 
 from api.dependencies import require_admin
-from services.music import audio, projects
+from fastapi.responses import FileResponse
+
+from core import job_store
+from core.job_queue import gpu_queue
+from core.path_security import resolve_within
+from services import proc_registry
+from services.music import audio, production, projects
 from services.music.projects import MusicError
 from services.music.schemas import (
     AudioSource,
@@ -90,3 +96,66 @@ async def import_music_audio(
 ) -> Song:
     with _music_errors():
         return await audio.import_audio(request, project_id, unquote(x_music_filename), source, rights)
+
+@router.get("/{project_id}/production/capabilities")
+def music_production_capabilities(project_id: UUID) -> dict[str, bool]:
+    with _music_errors():
+        projects.get(project_id)
+        return {"videoProvider": production.video_provider() is not None}
+
+
+@router.get("/{project_id}/production")
+def list_music_production(project_id: UUID) -> list[production.ProductionState]:
+    with _music_errors():
+        projects.get(project_id)
+        return [
+            production.snapshot(row)
+            for row in job_store.list_jobs(project_id=str(project_id), types=(production.JOB_TYPE,), limit=20)
+        ]
+
+
+@router.post("/{project_id}/production", status_code=202)
+async def run_music_production(project_id: UUID, settings: production.ProductionRequest) -> production.ProductionState:
+    with _music_errors():
+        return await production.start(project_id, settings)
+
+
+@router.post("/{project_id}/production/{run_id}/retry", status_code=202)
+async def retry_music_production(project_id: UUID, run_id: UUID) -> production.ProductionState:
+    with _music_errors():
+        previous = production.get(project_id, run_id)
+        if previous.state not in {"failed", "cancelled"}:
+            raise MusicError("production_busy", 409)
+        return await production.start(project_id, previous.settings, previous)
+
+
+@router.post("/{project_id}/production/{run_id}/cancel")
+async def cancel_music_production(project_id: UUID, run_id: UUID) -> production.ProductionState:
+    with _music_errors():
+        current = production.get(project_id, run_id)
+        if current.state in {"pending", "running"} and await gpu_queue.cancel(str(run_id)):
+            job = gpu_queue.get(str(run_id))
+            if job and job.done_event.is_set():
+                job_store.retire_if_active(str(run_id), "cancelled")
+            proc_registry.kill_job_procs(str(run_id))
+        return production.get(project_id, run_id)
+
+
+@router.get("/{project_id}/production/{run_id}/files/{name}", response_class=FileResponse)
+def open_music_artifact(project_id: UUID, run_id: UUID, name: production.Artifact) -> FileResponse:
+    with _music_errors():
+        projects.get(project_id)
+        state = production.get(project_id, run_id)
+        path = resolve_within(production.output_root(project_id, run_id), name)
+        if name not in state.artifacts or not path.is_file():
+            raise MusicError("production_missing", 404)
+        suffix_type = {".wav": "audio/wav", ".mp4": "video/mp4", ".ass": "text/plain", ".png": "image/png", ".json": "application/json"}
+        return FileResponse(path, media_type=suffix_type[path.suffix], filename=name,
+                            content_disposition_type="inline" if path.suffix in {".wav", ".mp4", ".png"} else "attachment",
+                            headers={"X-Content-Type-Options": "nosniff"})
+
+
+@router.post("/{project_id}/video", status_code=201)
+async def upload_music_video(project_id: UUID, request: Request) -> production.VideoAsset:
+    with _music_errors():
+        return await production.upload_video(request, project_id)

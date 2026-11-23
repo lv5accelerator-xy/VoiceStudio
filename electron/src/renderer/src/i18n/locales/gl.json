@@ -4434,7 +4434,6 @@
     "suno_help": "Xera a pista no sitio oficial de Suno. Copia estes campos cando o precises.",
     "audio_help": "Escolle un WAV ou MP3 local de ata 256 MiB e 20 minutos. Comproba os dereitos de uso pola túa conta.",
     "delete_policy": "Queres eliminar «{{title}}» e as letras, instrucións e análises gardadas? Conservaranse os ficheiros orixinais e as copias importadas.",
-    "planned": "Previsto: separación de pistas, mestura e produción de vídeos musicais.",
     "errors": {
       "project_missing": "Non se atopou este proxecto.",
       "project_conflict": "Os datos gardados cambiaron. Cárgaos antes de volver editalos.",
@@ -4456,6 +4455,35 @@
     "copy_failed": "Produciuse un erro na copia",
     "saved": "Gardado",
     "no_projects": "Aínda non hai proxectos",
-    "delete_project": "Eliminar proxecto"
+    "delete_project": "Eliminar proxecto",
+    "production": {
+      "title": "Produción",
+      "stems": "Separación de pistas",
+      "none": "Usar a pista orixinal",
+      "two": "Voz e acompañamento",
+      "four": "Catro pistas",
+      "vocals": "Voz",
+      "accompaniment": "Acompañamento",
+      "drums": "Batería",
+      "bass": "Baixo",
+      "other": "Outros",
+      "source": "Orixe",
+      "gain": "Ganancia (dB)",
+      "treble": "Agudos",
+      "solo": "Solo",
+      "compress": "Compresor",
+      "video": "Fondo MP4",
+      "storyboard": "Guión gráfico (JSON, milisegundos)",
+      "weights": "Instala ou verifica os pesos locais de Demucs antes de separar as pistas.",
+      "inputs": "Entradas",
+      "mix": "Xerar mestura WAV",
+      "mv": "Vídeo musical",
+      "export": "Exportar",
+      "pending": "Na cola",
+      "running": "En curso",
+      "done": "Rematado",
+      "failed": "Fallou",
+      "cancelled": "Cancelado"
+    }
   }
 }

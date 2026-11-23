@@ -2128,6 +2128,35 @@
     "title": "CommitRequest",
     "type": "object"
    },
+   "Cue": {
+    "additionalProperties": false,
+    "properties": {
+     "endMs": {
+      "exclusiveMinimum": 0.0,
+      "maximum": 1200000.0,
+      "title": "Endms",
+      "type": "integer"
+     },
+     "startMs": {
+      "minimum": 0.0,
+      "title": "Startms",
+      "type": "integer"
+     },
+     "text": {
+      "maxLength": 500,
+      "minLength": 1,
+      "title": "Text",
+      "type": "string"
+     }
+    },
+    "required": [
+     "startMs",
+     "endMs",
+     "text"
+    ],
+    "title": "Cue",
+    "type": "object"
+   },
    "CustomPathRequest": {
     "properties": {
      "authorization": {
@@ -3674,6 +3703,191 @@
      "path"
     ],
     "title": "ProbeReq",
+    "type": "object"
+   },
+   "ProductionRequest": {
+    "additionalProperties": false,
+    "properties": {
+     "aspect": {
+      "default": "portrait",
+      "enum": [
+       "portrait",
+       "landscape"
+      ],
+      "title": "Aspect",
+      "type": "string"
+     },
+     "audioId": {
+      "format": "uuid",
+      "title": "Audioid",
+      "type": "string"
+     },
+     "bpm": {
+      "default": 96,
+      "maximum": 300.0,
+      "minimum": 20.0,
+      "title": "Bpm",
+      "type": "integer"
+     },
+     "lyricsId": {
+      "anyOf": [
+       {
+        "format": "uuid",
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Lyricsid"
+     },
+     "promptId": {
+      "anyOf": [
+       {
+        "format": "uuid",
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Promptid"
+     },
+     "renderVideo": {
+      "default": true,
+      "title": "Rendervideo",
+      "type": "boolean"
+     },
+     "separation": {
+      "default": "none",
+      "enum": [
+       "none",
+       "two",
+       "four"
+      ],
+      "title": "Separation",
+      "type": "string"
+     },
+     "storyboard": {
+      "items": {
+       "$ref": "#/components/schemas/Cue"
+      },
+      "maxItems": 300,
+      "title": "Storyboard",
+      "type": "array"
+     },
+     "tracks": {
+      "items": {
+       "$ref": "#/components/schemas/Track"
+      },
+      "maxItems": 4,
+      "title": "Tracks",
+      "type": "array"
+     },
+     "videoId": {
+      "anyOf": [
+       {
+        "format": "uuid",
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Videoid"
+     },
+     "videoPrompt": {
+      "default": "",
+      "maxLength": 2000,
+      "title": "Videoprompt",
+      "type": "string"
+     }
+    },
+    "required": [
+     "audioId"
+    ],
+    "title": "ProductionRequest",
+    "type": "object"
+   },
+   "ProductionState": {
+    "additionalProperties": false,
+    "properties": {
+     "analysis": {
+      "anyOf": [
+       {
+        "$ref": "#/components/schemas/AudioAnalysis"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "artifacts": {
+      "items": {
+       "enum": [
+        "vocals.wav",
+        "accompaniment.wav",
+        "drums.wav",
+        "bass.wav",
+        "other.wav",
+        "mix.wav",
+        "lyrics.ass",
+        "mv.mp4",
+        "waveform.png",
+        "production.json",
+        "provider.mp4"
+       ],
+       "type": "string"
+      },
+      "title": "Artifacts",
+      "type": "array"
+     },
+     "completed": {
+      "items": {
+       "type": "string"
+      },
+      "title": "Completed",
+      "type": "array"
+     },
+     "error": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Error"
+     },
+     "id": {
+      "format": "uuid",
+      "title": "Id",
+      "type": "string"
+     },
+     "settings": {
+      "$ref": "#/components/schemas/ProductionRequest"
+     },
+     "state": {
+      "enum": [
+       "pending",
+       "running",
+       "done",
+       "failed",
+       "cancelled"
+      ],
+      "title": "State",
+      "type": "string"
+     }
+    },
+    "required": [
+     "id",
+     "state",
+     "settings",
+     "completed",
+     "artifacts"
+    ],
+    "title": "ProductionState",
     "type": "object"
    },
    "ProfileUpdate": {
@@ -5647,6 +5861,64 @@
     "title": "SystemInfoResponse",
     "type": "object"
    },
+   "Track": {
+    "additionalProperties": false,
+    "properties": {
+     "bass": {
+      "default": 0,
+      "maximum": 15.0,
+      "minimum": -15.0,
+      "title": "Bass",
+      "type": "number"
+     },
+     "compress": {
+      "default": false,
+      "title": "Compress",
+      "type": "boolean"
+     },
+     "gain": {
+      "default": 0,
+      "maximum": 12.0,
+      "minimum": -60.0,
+      "title": "Gain",
+      "type": "number"
+     },
+     "mute": {
+      "default": false,
+      "title": "Mute",
+      "type": "boolean"
+     },
+     "solo": {
+      "default": false,
+      "title": "Solo",
+      "type": "boolean"
+     },
+     "stem": {
+      "enum": [
+       "vocals",
+       "accompaniment",
+       "drums",
+       "bass",
+       "other",
+       "source"
+      ],
+      "title": "Stem",
+      "type": "string"
+     },
+     "treble": {
+      "default": 0,
+      "maximum": 15.0,
+      "minimum": -15.0,
+      "title": "Treble",
+      "type": "number"
+     }
+    },
+    "required": [
+     "stem"
+    ],
+    "title": "Track",
+    "type": "object"
+   },
    "TranscriptSegment": {
     "properties": {
      "cue_source_id": {
@@ -5990,6 +6262,21 @@
      "type"
     ],
     "title": "ValidationError",
+    "type": "object"
+   },
+   "VideoAsset": {
+    "additionalProperties": false,
+    "properties": {
+     "id": {
+      "format": "uuid",
+      "title": "Id",
+      "type": "string"
+     }
+    },
+    "required": [
+     "id"
+    ],
+    "title": "VideoAsset",
     "type": "object"
    },
    "WebSocketTicketRequest": {
@@ -18651,6 +18938,325 @@
     ]
    }
   },
+  "/music/projects/{project_id}/production": {
+   "get": {
+    "operationId": "list_music_production_music_projects__project_id__production_get",
+    "parameters": [
+     {
+      "in": "path",
+      "name": "project_id",
+      "required": true,
+      "schema": {
+       "format": "uuid",
+       "title": "Project Id",
+       "type": "string"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "items": {
+          "$ref": "#/components/schemas/ProductionState"
+         },
+         "title": "Response List Music Production Music Projects  Project Id  Production Get",
+         "type": "array"
+        }
+       }
+      },
+      "description": "Successful Response"
+     },
+     "422": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      },
+      "description": "Validation Error"
+     }
+    },
+    "summary": "List Music Production",
+    "tags": [
+     "Music"
+    ]
+   },
+   "post": {
+    "operationId": "run_music_production_music_projects__project_id__production_post",
+    "parameters": [
+     {
+      "in": "path",
+      "name": "project_id",
+      "required": true,
+      "schema": {
+       "format": "uuid",
+       "title": "Project Id",
+       "type": "string"
+      }
+     }
+    ],
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/ProductionRequest"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "202": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ProductionState"
+        }
+       }
+      },
+      "description": "Successful Response"
+     },
+     "422": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      },
+      "description": "Validation Error"
+     }
+    },
+    "summary": "Run Music Production",
+    "tags": [
+     "Music"
+    ]
+   }
+  },
+  "/music/projects/{project_id}/production/capabilities": {
+   "get": {
+    "operationId": "music_production_capabilities_music_projects__project_id__production_capabilities_get",
+    "parameters": [
+     {
+      "in": "path",
+      "name": "project_id",
+      "required": true,
+      "schema": {
+       "format": "uuid",
+       "title": "Project Id",
+       "type": "string"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "additionalProperties": {
+          "type": "boolean"
+         },
+         "title": "Response Music Production Capabilities Music Projects  Project Id  Production Capabilities Get",
+         "type": "object"
+        }
+       }
+      },
+      "description": "Successful Response"
+     },
+     "422": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      },
+      "description": "Validation Error"
+     }
+    },
+    "summary": "Music Production Capabilities",
+    "tags": [
+     "Music"
+    ]
+   }
+  },
+  "/music/projects/{project_id}/production/{run_id}/cancel": {
+   "post": {
+    "operationId": "cancel_music_production_music_projects__project_id__production__run_id__cancel_post",
+    "parameters": [
+     {
+      "in": "path",
+      "name": "project_id",
+      "required": true,
+      "schema": {
+       "format": "uuid",
+       "title": "Project Id",
+       "type": "string"
+      }
+     },
+     {
+      "in": "path",
+      "name": "run_id",
+      "required": true,
+      "schema": {
+       "format": "uuid",
+       "title": "Run Id",
+       "type": "string"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ProductionState"
+        }
+       }
+      },
+      "description": "Successful Response"
+     },
+     "422": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      },
+      "description": "Validation Error"
+     }
+    },
+    "summary": "Cancel Music Production",
+    "tags": [
+     "Music"
+    ]
+   }
+  },
+  "/music/projects/{project_id}/production/{run_id}/files/{name}": {
+   "get": {
+    "operationId": "open_music_artifact_music_projects__project_id__production__run_id__files__name__get",
+    "parameters": [
+     {
+      "in": "path",
+      "name": "project_id",
+      "required": true,
+      "schema": {
+       "format": "uuid",
+       "title": "Project Id",
+       "type": "string"
+      }
+     },
+     {
+      "in": "path",
+      "name": "run_id",
+      "required": true,
+      "schema": {
+       "format": "uuid",
+       "title": "Run Id",
+       "type": "string"
+      }
+     },
+     {
+      "in": "path",
+      "name": "name",
+      "required": true,
+      "schema": {
+       "enum": [
+        "vocals.wav",
+        "accompaniment.wav",
+        "drums.wav",
+        "bass.wav",
+        "other.wav",
+        "mix.wav",
+        "lyrics.ass",
+        "mv.mp4",
+        "waveform.png",
+        "production.json",
+        "provider.mp4"
+       ],
+       "title": "Name",
+       "type": "string"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response"
+     },
+     "422": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      },
+      "description": "Validation Error"
+     }
+    },
+    "summary": "Open Music Artifact",
+    "tags": [
+     "Music"
+    ]
+   }
+  },
+  "/music/projects/{project_id}/production/{run_id}/retry": {
+   "post": {
+    "operationId": "retry_music_production_music_projects__project_id__production__run_id__retry_post",
+    "parameters": [
+     {
+      "in": "path",
+      "name": "project_id",
+      "required": true,
+      "schema": {
+       "format": "uuid",
+       "title": "Project Id",
+       "type": "string"
+      }
+     },
+     {
+      "in": "path",
+      "name": "run_id",
+      "required": true,
+      "schema": {
+       "format": "uuid",
+       "title": "Run Id",
+       "type": "string"
+      }
+     }
+    ],
+    "responses": {
+     "202": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ProductionState"
+        }
+       }
+      },
+      "description": "Successful Response"
+     },
+     "422": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      },
+      "description": "Validation Error"
+     }
+    },
+    "summary": "Retry Music Production",
+    "tags": [
+     "Music"
+    ]
+   }
+  },
   "/music/projects/{project_id}/suno-prompts": {
    "put": {
     "operationId": "save_music_suno_prompt_music_projects__project_id__suno_prompts_put",
@@ -18699,6 +19305,49 @@
      }
     },
     "summary": "Save Music Suno Prompt",
+    "tags": [
+     "Music"
+    ]
+   }
+  },
+  "/music/projects/{project_id}/video": {
+   "post": {
+    "operationId": "upload_music_video_music_projects__project_id__video_post",
+    "parameters": [
+     {
+      "in": "path",
+      "name": "project_id",
+      "required": true,
+      "schema": {
+       "format": "uuid",
+       "title": "Project Id",
+       "type": "string"
+      }
+     }
+    ],
+    "responses": {
+     "201": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/VideoAsset"
+        }
+       }
+      },
+      "description": "Successful Response"
+     },
+     "422": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      },
+      "description": "Validation Error"
+     }
+    },
+    "summary": "Upload Music Video",
     "tags": [
      "Music"
     ]

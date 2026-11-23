@@ -4434,7 +4434,6 @@
     "suno_help": "Tạo bài hát trên trang chính thức của Suno. Sao chép các mục này khi đã sẵn sàng.",
     "audio_help": "Chọn tệp WAV hoặc MP3 cục bộ tối đa 256 MiB và 20 phút. Hãy tự kiểm tra quyền sử dụng.",
     "delete_policy": "Xóa “{{title}}” cùng lời, câu lệnh và phân tích đã lưu? Tệp gốc và các bản sao được nhập sẽ được giữ lại.",
-    "planned": "Dự kiến: tách track, hòa âm và sản xuất video ca nhạc.",
     "errors": {
       "project_missing": "Không tìm thấy dự án này.",
       "project_conflict": "Thông tin đã lưu thay đổi. Hãy tải lại trước khi sửa tiếp.",
@@ -4456,6 +4455,35 @@
     "copy_failed": "Sao chép không thành công",
     "saved": "Đã lưu",
     "no_projects": "Chưa có dự án nào",
-    "delete_project": "Xóa dự án"
+    "delete_project": "Xóa dự án",
+    "production": {
+      "title": "Sản xuất",
+      "stems": "Tách track",
+      "none": "Dùng track gốc",
+      "two": "Giọng hát và nhạc đệm",
+      "four": "Bốn track",
+      "vocals": "Giọng hát",
+      "accompaniment": "Nhạc đệm",
+      "drums": "Trống",
+      "bass": "Âm trầm",
+      "other": "Khác",
+      "source": "Nguồn",
+      "gain": "Mức khuếch đại (dB)",
+      "treble": "Âm cao",
+      "solo": "Solo",
+      "compress": "Bộ nén",
+      "video": "Nền MP4",
+      "storyboard": "Mốc phân cảnh (JSON, mili giây)",
+      "weights": "Cài đặt hoặc xác minh trọng số Demucs cục bộ trước khi tách track.",
+      "inputs": "Đầu vào",
+      "mix": "Xuất bản phối WAV",
+      "mv": "Video ca nhạc",
+      "export": "Xuất",
+      "pending": "Đang chờ",
+      "running": "Đang chạy",
+      "done": "Hoàn tất",
+      "failed": "Thất bại",
+      "cancelled": "Đã hủy"
+    }
   }
 }
